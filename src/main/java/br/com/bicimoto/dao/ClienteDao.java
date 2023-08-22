@@ -50,14 +50,18 @@ public class ClienteDao {
         }
     }
     
-    public void deleteCliente(ClienteModel cliente){
+    public void deleteCliente(Long id){
         try(Connection connDb = ConnectionDatabase.getConnection()) {
-            String sql = "delete from cliente where cd_cliente = ?";
+            String sql = "delete from cliente where cd_cliente=?";
             PreparedStatement stmt = connDb.prepareStatement(sql);
-            stmt.setLong(1, cliente.getId());
-            stmt.execute();
+            stmt.setLong(1, id);
+            int rows = stmt.executeUpdate(); // o execute update retorna um inteiro que relaciona as linhas alteradas
             stmt.close();
-            JOptionPane.showMessageDialog(null, "Deletado com sucesso!", "Deletado", 2);
+            if(rows > 0){
+            JOptionPane.showMessageDialog(null, "Deletado com sucesso!", "Deletado", 1);
+            }else{
+            JOptionPane.showMessageDialog(null, "Código de cliente não encontrado!", "Aviso", 2);    
+            }
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e);
         }
@@ -65,10 +69,9 @@ public class ClienteDao {
     
     public void updateCliente(ClienteModel cliente){
         try(Connection connDb = ConnectionDatabase.getConnection()){
-            String sql = "UPDATE public.cliente" +
-"SET nm_cliente= ?, ds_telefone= ?, dt_nascimento= ?, ds_cpf= ?, ds_email= ?, ds_cep= ?, ds_endereco= ?, ds_cidade= ?, ds_bairro= ?, ds_estado= ? " +
-"WHERE cd_cliente= ? ";
+            String sql = "UPDATE cliente SET nm_cliente=?, ds_telefone=?, dt_nascimento=?, ds_cpf=?, ds_email=?, ds_cep=?, ds_endereco=?, ds_cidade=?, ds_bairro=?, ds_estado=? WHERE cd_cliente=?";
             PreparedStatement stmt = connDb.prepareStatement(sql);
+            
             stmt.setString(1, cliente.getNome());
             stmt.setString(2, cliente.getTelefone());
             stmt.setDate(3, cliente.getDt_nascimento());
@@ -84,10 +87,11 @@ public class ClienteDao {
             stmt.execute();
             stmt.close();
             
-            JOptionPane.showMessageDialog(null, "Atualizado com sucesso","Atualização",2);
+            JOptionPane.showMessageDialog(null, "Atualizado com sucesso","Atualização",1);
             
         }catch(SQLException e){
             JOptionPane.showMessageDialog(null, e);
+            System.out.println(e.toString());
         }
     }
     
@@ -98,7 +102,7 @@ public class ClienteDao {
         String sql;
         try(Connection connDb = ConnectionDatabase.getConnection()){
             if(nm_cliente != null){
-                sql =  "select * from cliente where nm_cliente like ? ";
+                sql =  "select * from cliente where lower(nm_cliente) like lower(?) ";
                 PreparedStatement stmt = connDb.prepareStatement(sql);
                 stmt.setString(1, "%"+nm_cliente+"%"); // para usar o like '%edu%'
                 result = stmt.executeQuery(); // salvo o cursor no objeto result 
@@ -139,8 +143,7 @@ public class ClienteDao {
     public int selectLastId(){
         try(Connection connDb = ConnectionDatabase.getConnection()){
             Statement stmt = connDb.createStatement();
-            String sql = "SELECT last_value+1" +
-            "FROM public.cliente_cd_cliente_seq";
+            String sql = "SELECT (last_value+1) FROM cliente_cd_cliente_seq";
             ResultSet result = stmt.executeQuery(sql);
             if(result.next()){
                 int lastId = result.getInt(1);

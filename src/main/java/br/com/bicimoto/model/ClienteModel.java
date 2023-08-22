@@ -19,6 +19,8 @@ e tambem os metodos get e set
 */
 public class ClienteModel {
     
+     private final SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+    
      private Long id;
      private String nome;
      private String email;
@@ -90,14 +92,25 @@ public class ClienteModel {
     public void setCpf(String cpf) {
         this.cpf = cpf;
     }
-
-    public Date getDt_nascimento() {
-        return dt_nascimento;
+    public Date getDt_nascimento(){
+        return this.dt_nascimento;
     }
-
+    public String getString_nascimento(){
+        String data = "";
+        try{
+            data = formatter.format(dt_nascimento);
+        }
+        catch(Exception e){ 
+            e.getStackTrace();
+        }
+        // formata o datesql em String
+        return data;
+    }
+    /* crio um util.date que recebe a string formata em data
+    depois passo para a variavel datesql o util.date
+    */
     public void setDt_nascimento(String string_data) {
-        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-        try {
+        try { 
             java.util.Date data_formatada = formatter.parse(string_data);
             this.dt_nascimento = new Date(data_formatada.getTime());
             

@@ -5,9 +5,16 @@
 package br.com.bicimoto.view;
 
 import br.com.bicimoto.dao.ClienteDao;
+import br.com.bicimoto.model.ApiCep;
 import br.com.bicimoto.model.ClienteModel;
+import br.com.bicimoto.model.Endereco;
+import br.com.bicimoto.model.ViewModel;
+import java.awt.event.KeyEvent;
+import java.io.IOException;
 
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -37,7 +44,7 @@ public class FrmCliente extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jTabbedPane1 = new javax.swing.JTabbedPane();
+        paneCadastro = new javax.swing.JTabbedPane();
         jCadastro = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         txtId = new javax.swing.JTextField();
@@ -103,6 +110,8 @@ public class FrmCliente extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        paneCadastro.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+
         jCadastro.setBackground(new java.awt.Color(255, 255, 255));
 
         jLabel2.setBackground(new java.awt.Color(255, 255, 255));
@@ -110,6 +119,7 @@ public class FrmCliente extends javax.swing.JFrame {
         jLabel2.setForeground(new java.awt.Color(0, 0, 0));
         jLabel2.setText("Código:");
 
+        txtId.setEditable(false);
         txtId.setBackground(new java.awt.Color(255, 255, 255));
         txtId.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         txtId.addActionListener(new java.awt.event.ActionListener() {
@@ -173,6 +183,11 @@ public class FrmCliente extends javax.swing.JFrame {
         txtCep.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtCepActionPerformed(evt);
+            }
+        });
+        txtCep.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtCepKeyPressed(evt);
             }
         });
 
@@ -363,7 +378,7 @@ public class FrmCliente extends javax.swing.JFrame {
                 .addGap(89, 89, 89))
         );
 
-        jTabbedPane1.addTab("Cadastrar/Editar", jCadastro);
+        paneCadastro.addTab("Cadastrar/Editar", jCadastro);
 
         jConsulta.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -377,6 +392,11 @@ public class FrmCliente extends javax.swing.JFrame {
         txtPesquisa.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtPesquisaActionPerformed(evt);
+            }
+        });
+        txtPesquisa.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtPesquisaKeyPressed(evt);
             }
         });
 
@@ -434,7 +454,7 @@ public class FrmCliente extends javax.swing.JFrame {
                 .addGap(14, 14, 14))
         );
 
-        jTabbedPane1.addTab("Consultar", jConsulta);
+        paneCadastro.addTab("Consultar", jConsulta);
 
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -502,7 +522,7 @@ public class FrmCliente extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jTabbedPane1)
+            .addComponent(paneCadastro)
             .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
@@ -510,7 +530,7 @@ public class FrmCliente extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 340, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(paneCadastro, javax.swing.GroupLayout.PREFERRED_SIZE, 340, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -566,7 +586,7 @@ public class FrmCliente extends javax.swing.JFrame {
     ao clicar no botao executa a acao de criar um objeto e salvar nesse objeto
     os valores preenchido nos campos. Por fim, chama o clienteDao, para inserir esse objeto no banco
     */
-    private ClienteModel cliente;
+    
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
         try{
             cliente = new ClienteModel();
@@ -583,29 +603,52 @@ public class FrmCliente extends javax.swing.JFrame {
             
             
             clienteDao.insertCliente(cliente);
-            
+            viewModel.limparDados(jCadastro);
         }catch(Exception e){
             e.getStackTrace();
         }
     }//GEN-LAST:event_btnSalvarActionPerformed
 
     private void btnNovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovoActionPerformed
-        // TODO add your handling code here:
+        viewModel.limparDados(jCadastro);
     }//GEN-LAST:event_btnNovoActionPerformed
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
-        // TODO add your handling code here:
+        try{
+            cliente = new ClienteModel();
+            cliente.setNome(txtNome.getText());
+            cliente.setCpf(txtCpf.getText());
+            cliente.setDt_nascimento(txtDt_nascimento.getText());
+            cliente.setEmail(txtEmail.getText());
+            cliente.setTelefone(txtTelefone.getText());
+            cliente.setCep(txtCep.getText());
+            cliente.setEndereco(txtEndereco.getText());
+            cliente.setCidade(txtCidade.getText());
+            cliente.setBairro(txtBairro.getText());
+            cliente.setEstado(boxEstado.getSelectedItem().toString());
+            cliente.setId(Long.parseLong(txtId.getText()));
+            
+            clienteDao.updateCliente(cliente);
+            viewModel.limparDados(jCadastro);
+        }catch(Exception e){
+            e.getStackTrace();
+        }
     }//GEN-LAST:event_btnEditarActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-        // TODO add your handling code here:
+        clienteDao.deleteCliente(Long.parseLong(txtId.getText()));
+        viewModel.limparDados(jCadastro);
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void txtDt_nascimentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDt_nascimentoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtDt_nascimentoActionPerformed
-    
-    private ClienteDao clienteDao = new ClienteDao();
+          
+    private final ClienteDao clienteDao = new ClienteDao();
+    private final ApiCep apiCep = new ApiCep();
+    private Endereco endereco;
+    private ClienteModel cliente;
+    private final ViewModel viewModel = new ViewModel();
     
     /*
     Recebe uma string como parametro que sera usada para filtrar os clientes
@@ -630,7 +673,7 @@ public class FrmCliente extends javax.swing.JFrame {
                 cliente.getId(),
                 cliente.getNome(),
                 cliente.getTelefone(),
-                cliente.getDt_nascimento(),
+                cliente.getString_nascimento(),
                 cliente.getCpf(),
                 cliente.getEndereco(),
                 cliente.getBairro(),
@@ -649,13 +692,8 @@ public class FrmCliente extends javax.swing.JFrame {
     e chama a funcao listar cliente
     */
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
-        clienteDao = new ClienteDao();
-        txtId.setText(Integer.toString(clienteDao.selectLastId()));
-        txtId.setEditable(false);
-        
+        //txtId.setText(Integer.toString(clienteDao.selectLastId()));    
         listarCliente(null);
-        
-       
         
     }//GEN-LAST:event_formWindowActivated
     
@@ -679,8 +717,8 @@ public class FrmCliente extends javax.swing.JFrame {
     da tela de cadastro
     */
     private void tblClienteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblClienteMouseClicked
-        jTabbedPane1.setSelectedIndex(0);
-        
+        paneCadastro.setSelectedIndex(0);
+        try{
         txtId.setText(tblCliente.getValueAt(tblCliente.getSelectedRow(), 0).toString());
         txtNome.setText(tblCliente.getValueAt(tblCliente.getSelectedRow(), 1).toString());
         txtTelefone.setText(tblCliente.getValueAt(tblCliente.getSelectedRow(), 2).toString());
@@ -689,10 +727,30 @@ public class FrmCliente extends javax.swing.JFrame {
         txtEndereco.setText(tblCliente.getValueAt(tblCliente.getSelectedRow(), 5).toString());
         txtBairro.setText(tblCliente.getValueAt(tblCliente.getSelectedRow(), 6).toString());
         txtCidade.setText(tblCliente.getValueAt(tblCliente.getSelectedRow(), 7).toString());
-        txtCep.setText(tblCliente.getValueAt(tblCliente.getSelectedRow(), 8).toString());
-        txtEmail.setText(tblCliente.getValueAt(tblCliente.getSelectedRow(), 9).toString());
-       
+        txtCep.setText(tblCliente.getValueAt(tblCliente.getSelectedRow(), 9).toString());
+        txtEmail.setText(tblCliente.getValueAt(tblCliente.getSelectedRow(), 10).toString());
+        }catch(Exception e){
+            e.getStackTrace();
+        }
     }//GEN-LAST:event_tblClienteMouseClicked
+
+    private void txtPesquisaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPesquisaKeyPressed
+        listarCliente(txtPesquisa.getText());
+    }//GEN-LAST:event_txtPesquisaKeyPressed
+
+    private void txtCepKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCepKeyPressed
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+            endereco = new Endereco();
+            try {
+                endereco = apiCep.getEndereco(txtCep.getText());
+                txtBairro.setText(endereco.getBairro());
+                txtEndereco.setText(endereco.getLogradouro());
+                txtCidade.setText(endereco.getLocalidade());
+            } catch (IOException ex) {
+               ex.getStackTrace();
+            }
+        }
+    }//GEN-LAST:event_txtCepKeyPressed
 
     /**
      * @param args the command line arguments
@@ -760,7 +818,7 @@ public class FrmCliente extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JTabbedPane paneCadastro;
     private javax.swing.JTable tblCliente;
     private javax.swing.JTextField txtBairro;
     private javax.swing.JFormattedTextField txtCep;

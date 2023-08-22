@@ -19,4 +19,5 @@ select * from cliente
 where nm_cliente like '%eduardo%';
 
 
-select currval('cliente_cd_cliente_seq'); 
+SELECT last_value+1
+FROM public.cliente_cd_cliente_seq;

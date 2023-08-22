@@ -6,7 +6,10 @@
 package br.com.bicimoto.test;
 
 import br.com.bicimoto.dao.ClienteDao;
+import br.com.bicimoto.model.ApiCep;
 import br.com.bicimoto.model.ClienteModel;
+import java.io.IOException;
+import java.io.PrintStream;
 import java.util.List;
 
 import org.junit.Before;
@@ -20,14 +23,18 @@ import org.junit.Test;
 public class ClienteTeste {
     private ClienteModel cliente;
     private ClienteDao clienteDao;
+    private ApiCep apiCep;
+    
     @Before
     public void setUp(){
       cliente = new ClienteModel();
       clienteDao = new ClienteDao();
+      apiCep = new ApiCep();
     }
     @Test
     public void testSetData(){
-        cliente.setDt_nascimento("06/06/2001");
+        cliente.setDt_nascimento("06/06/2001");        
+        System.out.println(cliente.getString_nascimento());
         System.out.println(cliente.getDt_nascimento());
     }
     @Test
@@ -41,5 +48,9 @@ public class ClienteTeste {
             System.out.println(cliente.getNome());
         }
     }
-    
+    @Test
+    public void testApiCep() throws IOException{
+        apiCep.getEndereco("78025300");
+       
+    }
 }
