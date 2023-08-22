@@ -562,6 +562,10 @@ public class FrmCliente extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtPesquisaActionPerformed
     
+    /*
+    ao clicar no botao executa a acao de criar um objeto e salvar nesse objeto
+    os valores preenchido nos campos. Por fim, chama o clienteDao, para inserir esse objeto no banco
+    */
     private ClienteModel cliente;
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
         try{
@@ -603,11 +607,24 @@ public class FrmCliente extends javax.swing.JFrame {
     
     private ClienteDao clienteDao = new ClienteDao();
     
+    /*
+    Recebe uma string como parametro que sera usada para filtrar os clientes
+    caso entre como nulo, sera listado todos os clientes
+    */
     private void listarCliente(String nm_cliente){
+        // recebe um lista de cliente
         List<ClienteModel> lista = clienteDao.selectCliente(nm_cliente);
+        
+        /* forma de passar os dados de uma lista para a tabela
+         utilizando o DefaultTableModel pegamos o modelo da tblcliente
+        */
         DefaultTableModel dados = (DefaultTableModel) tblCliente.getModel(); // criando o objeto que armazena os dados da lista no formato tabela do Java Swing
+        
+        // zera a listagem toda vez que a funcao eh chamada
         dados.setRowCount(0);
-   
+        
+        // adiciona os dados das colunas em cada linha da lista
+        // cada linha representa um objeto
         for(ClienteModel cliente : lista){
             dados.addRow(new Object[]{
                 cliente.getId(),
@@ -627,6 +644,10 @@ public class FrmCliente extends javax.swing.JFrame {
         
     }
     
+    /*
+    quando a janela eh executada, busca o proximo ID de cadastro
+    e chama a funcao listar cliente
+    */
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
         clienteDao = new ClienteDao();
         txtId.setText(Integer.toString(clienteDao.selectLastId()));
@@ -637,12 +658,26 @@ public class FrmCliente extends javax.swing.JFrame {
        
         
     }//GEN-LAST:event_formWindowActivated
-
+    
+    /*
+    Quando o botao de busca eh pressionado
+    listar_cliente recebendo o parametro de entrada
+    o nome preenchido no campo de busca
+    */
     private void btnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarActionPerformed
 
         listarCliente(txtPesquisa.getText());
     }//GEN-LAST:event_btnPesquisarActionPerformed
-
+    
+    /*
+    quando a tabela eh clicada com o mouse
+    jTabbedPane.setSelectedIndex define a aba que esta sendo exibida
+    ou seja, se eu estou na aba consulta e clico em algum cliente
+    serei enviado para a aba de cadastro
+    
+    Eh repassado todos os dados do cliente selecionado para os campos 
+    da tela de cadastro
+    */
     private void tblClienteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblClienteMouseClicked
         jTabbedPane1.setSelectedIndex(0);
         

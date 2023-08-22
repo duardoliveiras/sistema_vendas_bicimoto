@@ -12,6 +12,11 @@ import java.text.SimpleDateFormat;
  *
  * @author Eduar
  */
+
+/*
+Modelo do cliente, possui como atributos todas as colunas da tabela
+e tambem os metodos get e set
+*/
 public class ClienteModel {
     
      private Long id;

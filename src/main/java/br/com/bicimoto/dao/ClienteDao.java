@@ -16,7 +16,7 @@ import javax.swing.JOptionPane;
  */
 public class ClienteDao {
     
-
+    // utlizamos o prepared statement quando queremos inserir um paremetro na consulta sql
     public void insertCliente(ClienteModel cliente){
         
         try(Connection connDb = ConnectionDatabase.getConnection()) {
@@ -41,7 +41,7 @@ public class ClienteDao {
             stmt.close();
             
             JOptionPane.showMessageDialog(null, "Cliente inserido com sucesso!", "Cadastro", 1);
-            
+            // biblioteca para exibir janelas
             
             
             
@@ -49,6 +49,7 @@ public class ClienteDao {
             JOptionPane.showMessageDialog(null, e);
         }
     }
+    
     public void deleteCliente(ClienteModel cliente){
         try(Connection connDb = ConnectionDatabase.getConnection()) {
             String sql = "delete from cliente where cd_cliente = ?";
@@ -61,6 +62,7 @@ public class ClienteDao {
             JOptionPane.showMessageDialog(null, e);
         }
     }
+    
     public void updateCliente(ClienteModel cliente){
         try(Connection connDb = ConnectionDatabase.getConnection()){
             String sql = "UPDATE public.cliente" +
@@ -88,23 +90,26 @@ public class ClienteDao {
             JOptionPane.showMessageDialog(null, e);
         }
     }
+    
+    // lista executa um sql quando recebe null, ou um select com prepared statement (com um parametro nome)
     public List<ClienteModel> selectCliente(String nm_cliente){
         List<ClienteModel> lista_cliente = new ArrayList<ClienteModel>();
-        ResultSet result;
+        ResultSet result; // um objeto que armazena os dados da consulta, como se fosse um cursor
         String sql;
         try(Connection connDb = ConnectionDatabase.getConnection()){
             if(nm_cliente != null){
                 sql =  "select * from cliente where nm_cliente like ? ";
                 PreparedStatement stmt = connDb.prepareStatement(sql);
-                stmt.setString(1, "%"+nm_cliente+"%");
-                result = stmt.executeQuery();
+                stmt.setString(1, "%"+nm_cliente+"%"); // para usar o like '%edu%'
+                result = stmt.executeQuery(); // salvo o cursor no objeto result 
             }else{
                 sql =  "select * from cliente";
                 Statement stmt = connDb.createStatement();
                 result = stmt.executeQuery(sql);
             }
 
-            while(result.next()){
+            // enquanto houver um proximo crie um objeto adicione as informacoes das colunas nos atributos e adicione esse objeto cliente na lista
+            while(result.next()){ 
                 ClienteModel cliente = new ClienteModel();
                 
                 cliente.setId(result.getLong("cd_cliente"));
@@ -130,10 +135,12 @@ public class ClienteDao {
         return lista_cliente;
     }
 
+    // seleciona o ultimo proximo valor a ser cadastrado como cd_cliente
     public int selectLastId(){
         try(Connection connDb = ConnectionDatabase.getConnection()){
             Statement stmt = connDb.createStatement();
-            String sql = "select nextval('cliente_cd_cliente_seq'::regclass) ";
+            String sql = "SELECT last_value+1" +
+            "FROM public.cliente_cd_cliente_seq";
             ResultSet result = stmt.executeQuery(sql);
             if(result.next()){
                 int lastId = result.getInt(1);
