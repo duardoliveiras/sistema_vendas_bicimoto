@@ -21,3 +21,8 @@ where nm_cliente like '%eduardo%';
 
 SELECT last_value+1
 FROM public.cliente_cd_cliente_seq;
+
+
+select * from fornecedor;
+
+select cd_fornecedor, nm_fornecedor, ds_telefone, ds_endereco, ds_cnpj, ds_email, ds_cep, ds_cidade, ds_estado, ds_bairro from fornecedor;

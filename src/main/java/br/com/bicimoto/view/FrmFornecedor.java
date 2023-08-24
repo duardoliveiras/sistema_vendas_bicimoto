@@ -4,30 +4,31 @@
  */
 package br.com.bicimoto.view;
 
-import br.com.bicimoto.dao.ClienteDao;
+import br.com.bicimoto.dao.FornecedorDao;
+import br.com.bicimoto.dao.ProdutoDao;
+import br.com.bicimoto.model.FornecedorModel;
+import br.com.bicimoto.model.ProdutoModel;
 import br.com.bicimoto.util.ApiCep;
-import br.com.bicimoto.model.ClienteModel;
 import br.com.bicimoto.util.Endereco;
 import br.com.bicimoto.util.ViewUtil;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
-
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+
 
 /**
  *
  * @author Eduar
  */
-public class FrmCliente extends javax.swing.JFrame {
+public class FrmFornecedor extends javax.swing.JFrame {
 
 
     /**
      * Creates new form FrmCliente
      */
-    public FrmCliente() {
+    public FrmFornecedor() {
         
         initComponents();
         
@@ -49,31 +50,28 @@ public class FrmCliente extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         txtId = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        txtEmail = new javax.swing.JTextField();
         txtNome = new javax.swing.JTextField();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        txtCnpj = new javax.swing.JFormattedTextField();
         txtTelefone = new javax.swing.JFormattedTextField();
-        txtCep = new javax.swing.JFormattedTextField();
+        jLabel5 = new javax.swing.JLabel();
+        txtEmail = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        txtEndereco = new javax.swing.JTextField();
+        txtCep = new javax.swing.JFormattedTextField();
         jLabel7 = new javax.swing.JLabel();
+        txtEndereco = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        boxEstado = new javax.swing.JComboBox<>();
         txtBairro = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
         txtCidade = new javax.swing.JTextField();
-        boxEstado = new javax.swing.JComboBox<>();
-        jLabel10 = new javax.swing.JLabel();
-        jLabel11 = new javax.swing.JLabel();
-        txtCpf = new javax.swing.JFormattedTextField();
-        txtDt_nascimento = new javax.swing.JFormattedTextField();
-        jLabel12 = new javax.swing.JLabel();
         jConsulta = new javax.swing.JPanel();
-        jLabel13 = new javax.swing.JLabel();
         txtPesquisa = new javax.swing.JTextField();
-        btnPesquisar = new javax.swing.JButton();
+        jLabel13 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tblCliente = new javax.swing.JTable();
+        tblFornecedor = new javax.swing.JTable();
         jPanel4 = new javax.swing.JPanel();
         btnSalvar = new javax.swing.JButton();
         btnNovo = new javax.swing.JButton();
@@ -91,7 +89,7 @@ public class FrmCliente extends javax.swing.JFrame {
 
         jLabel1.setFont(new java.awt.Font("Arial Black", 0, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel1.setText("Clientes");
+        jLabel1.setText("Fornecedores");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -133,14 +131,6 @@ public class FrmCliente extends javax.swing.JFrame {
         jLabel3.setForeground(new java.awt.Color(0, 0, 0));
         jLabel3.setText("Nome:");
 
-        txtEmail.setBackground(new java.awt.Color(255, 255, 255));
-        txtEmail.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        txtEmail.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtEmailActionPerformed(evt);
-            }
-        });
-
         txtNome.setBackground(new java.awt.Color(255, 255, 255));
         txtNome.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         txtNome.addActionListener(new java.awt.event.ActionListener() {
@@ -149,15 +139,23 @@ public class FrmCliente extends javax.swing.JFrame {
             }
         });
 
-        jLabel4.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel4.setText("Email:");
+        jLabel11.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel11.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel11.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel11.setText("CNPJ:");
 
-        jLabel5.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel5.setText("Telefone:");
+        txtCnpj.setBackground(new java.awt.Color(255, 255, 255));
+        try {
+            txtCnpj.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##.###.###/####-##")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+        txtCnpj.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtCnpj.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtCnpjActionPerformed(evt);
+            }
+        });
 
         txtTelefone.setBackground(new java.awt.Color(255, 255, 255));
         try {
@@ -171,6 +169,29 @@ public class FrmCliente extends javax.swing.JFrame {
                 txtTelefoneActionPerformed(evt);
             }
         });
+
+        jLabel5.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel5.setText("Telefone:");
+
+        txtEmail.setBackground(new java.awt.Color(255, 255, 255));
+        txtEmail.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtEmail.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtEmailActionPerformed(evt);
+            }
+        });
+
+        jLabel4.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel4.setText("Email:");
+
+        jLabel6.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel6.setText("CEP:");
 
         txtCep.setBackground(new java.awt.Color(255, 255, 255));
         try {
@@ -191,10 +212,10 @@ public class FrmCliente extends javax.swing.JFrame {
             }
         });
 
-        jLabel6.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel6.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel6.setText("CEP:");
+        jLabel7.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel7.setText("Endereço:");
 
         txtEndereco.setBackground(new java.awt.Color(255, 255, 255));
         txtEndereco.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -204,15 +225,24 @@ public class FrmCliente extends javax.swing.JFrame {
             }
         });
 
-        jLabel7.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel7.setText("Endereço:");
-
         jLabel8.setBackground(new java.awt.Color(255, 255, 255));
         jLabel8.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(0, 0, 0));
         jLabel8.setText("Bairro:");
+
+        jLabel10.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel10.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel10.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel10.setText("UF:");
+
+        boxEstado.setBackground(new java.awt.Color(255, 255, 255));
+        boxEstado.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        boxEstado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "MT", "GO", "MG" }));
+        boxEstado.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                boxEstadoActionPerformed(evt);
+            }
+        });
 
         txtBairro.setBackground(new java.awt.Color(255, 255, 255));
         txtBairro.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -235,56 +265,6 @@ public class FrmCliente extends javax.swing.JFrame {
             }
         });
 
-        boxEstado.setBackground(new java.awt.Color(255, 255, 255));
-        boxEstado.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        boxEstado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "MT", "GO", "MG" }));
-        boxEstado.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                boxEstadoActionPerformed(evt);
-            }
-        });
-
-        jLabel10.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel10.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel10.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel10.setText("UF:");
-
-        jLabel11.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel11.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel11.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel11.setText("CPF:");
-
-        txtCpf.setBackground(new java.awt.Color(255, 255, 255));
-        try {
-            txtCpf.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("###.###.###-##")));
-        } catch (java.text.ParseException ex) {
-            ex.printStackTrace();
-        }
-        txtCpf.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        txtCpf.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtCpfActionPerformed(evt);
-            }
-        });
-
-        txtDt_nascimento.setBackground(new java.awt.Color(255, 255, 255));
-        try {
-            txtDt_nascimento.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
-        } catch (java.text.ParseException ex) {
-            ex.printStackTrace();
-        }
-        txtDt_nascimento.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        txtDt_nascimento.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtDt_nascimentoActionPerformed(evt);
-            }
-        });
-
-        jLabel12.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel12.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel12.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel12.setText("Data de Nascimento:");
-
         javax.swing.GroupLayout jCadastroLayout = new javax.swing.GroupLayout(jCadastro);
         jCadastro.setLayout(jCadastroLayout);
         jCadastroLayout.setHorizontalGroup(
@@ -299,11 +279,7 @@ public class FrmCliente extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel11)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtCpf, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel12)
-                        .addGap(18, 18, 18)
-                        .addComponent(txtDt_nascimento))
+                        .addComponent(txtCnpj))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jCadastroLayout.createSequentialGroup()
                         .addGroup(jCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel8)
@@ -314,8 +290,8 @@ public class FrmCliente extends javax.swing.JFrame {
                         .addGap(25, 25, 25)
                         .addGroup(jCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jCadastroLayout.createSequentialGroup()
-                                .addComponent(txtCep, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(30, 30, 30)
+                                .addComponent(txtCep, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
                                 .addComponent(jLabel7)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(txtEndereco))
@@ -332,10 +308,9 @@ public class FrmCliente extends javax.swing.JFrame {
                                 .addGap(18, 18, 18)
                                 .addComponent(txtTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jCadastroLayout.createSequentialGroup()
-                                .addGroup(jCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(boxEstado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, 553, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(0, 0, Short.MAX_VALUE)))))
+                                .addComponent(boxEstado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 416, Short.MAX_VALUE))
+                            .addComponent(txtNome))))
                 .addGap(471, 471, 471))
         );
         jCadastroLayout.setVerticalGroup(
@@ -346,14 +321,12 @@ public class FrmCliente extends javax.swing.JFrame {
                     .addComponent(jLabel2)
                     .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel11)
-                    .addComponent(txtCpf)
-                    .addComponent(jLabel12)
-                    .addComponent(txtDt_nascimento))
+                    .addComponent(txtCnpj))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -382,11 +355,6 @@ public class FrmCliente extends javax.swing.JFrame {
 
         jConsulta.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel13.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel13.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel13.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel13.setText("Nome:");
-
         txtPesquisa.setBackground(new java.awt.Color(255, 255, 255));
         txtPesquisa.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         txtPesquisa.addActionListener(new java.awt.event.ActionListener() {
@@ -400,59 +368,57 @@ public class FrmCliente extends javax.swing.JFrame {
             }
         });
 
-        btnPesquisar.setBackground(new java.awt.Color(255, 255, 255));
-        btnPesquisar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        btnPesquisar.setText("Pesquisar");
-        btnPesquisar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnPesquisarActionPerformed(evt);
-            }
-        });
+        jLabel13.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel13.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel13.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel13.setText("Nome:");
 
-        tblCliente.setBackground(new java.awt.Color(255, 255, 255));
-        tblCliente.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        tblCliente.setModel(new javax.swing.table.DefaultTableModel(
+        tblFornecedor.setBackground(new java.awt.Color(255, 255, 255));
+        tblFornecedor.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        tblFornecedor.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Código", "Nome", "Telefone", "Data Nascimento", "CPF", "Endereço", "Bairro", "Cidade", "Estado", "CEP", "Email"
+                "Código", "Nome", "Telefone", "CNPJ", "Endereço", "Bairro", "Cidade", "Estado", "CEP", "Email"
             }
         ));
-        tblCliente.addMouseListener(new java.awt.event.MouseAdapter() {
+        tblFornecedor.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tblClienteMouseClicked(evt);
+                tblFornecedorMouseClicked(evt);
             }
         });
-        jScrollPane1.setViewportView(tblCliente);
+        jScrollPane1.setViewportView(tblFornecedor);
 
         javax.swing.GroupLayout jConsultaLayout = new javax.swing.GroupLayout(jConsulta);
         jConsulta.setLayout(jConsultaLayout);
         jConsultaLayout.setHorizontalGroup(
             jConsultaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jConsultaLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jConsultaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1088, Short.MAX_VALUE)
-                    .addGroup(jConsultaLayout.createSequentialGroup()
-                        .addComponent(jLabel13)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtPesquisa)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnPesquisar)))
-                .addContainerGap())
+            .addGap(0, 1035, Short.MAX_VALUE)
+            .addGroup(jConsultaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jConsultaLayout.createSequentialGroup()
+                    .addContainerGap()
+                    .addGroup(jConsultaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1023, Short.MAX_VALUE)
+                        .addGroup(jConsultaLayout.createSequentialGroup()
+                            .addComponent(jLabel13)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(txtPesquisa)
+                            .addGap(94, 94, 94)))
+                    .addContainerGap()))
         );
         jConsultaLayout.setVerticalGroup(
             jConsultaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jConsultaLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jConsultaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel13)
-                    .addComponent(txtPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnPesquisar))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 256, Short.MAX_VALUE)
-                .addGap(14, 14, 14))
+            .addGap(0, 309, Short.MAX_VALUE)
+            .addGroup(jConsultaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jConsultaLayout.createSequentialGroup()
+                    .addGap(10, 10, 10)
+                    .addGroup(jConsultaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel13)
+                        .addComponent(txtPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 257, Short.MAX_VALUE)
+                    .addGap(10, 10, 10)))
         );
 
         paneCadastro.addTab("Consultar", jConsulta);
@@ -538,222 +504,169 @@ public class FrmCliente extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+    
+        
+    private FornecedorModel fornecedor;
+    private final FornecedorDao fornecedorDao = new FornecedorDao();
+    private final ApiCep apiCep = new ApiCep();
+    private final ViewUtil viewUtil = new ViewUtil();
+    
+    private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
+        fornecedor = new FornecedorModel();
 
-    private void txtIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtIdActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtIdActionPerformed
+        fornecedor.setDs_bairro(txtBairro.getText());
+        fornecedor.setDs_cep(txtCep.getText());
+        fornecedor.setDs_cidade(txtCidade.getText());
+        fornecedor.setDs_email(txtEmail.getText());
+        fornecedor.setDs_endereco(txtEndereco.getText());
+        fornecedor.setDs_telefone(txtTelefone.getText());
+        fornecedor.setNm_fornecedor(txtNome.getText());
+        fornecedor.setDs_estado(boxEstado.getSelectedItem().toString());
+        fornecedor.setDs_cnpj(txtCnpj.getText());
+        
+        fornecedorDao.insertFornecedor(fornecedor);
 
-    private void txtEmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEmailActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtEmailActionPerformed
+    }//GEN-LAST:event_btnSalvarActionPerformed
 
-    private void txtNomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNomeActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtNomeActionPerformed
+    private void btnNovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovoActionPerformed
+         viewUtil.limparDados(jCadastro);
+    }//GEN-LAST:event_btnNovoActionPerformed
 
-    private void txtTelefoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTelefoneActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtTelefoneActionPerformed
+    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
+        fornecedor = new FornecedorModel();
 
-    private void txtCepActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCepActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtCepActionPerformed
+        fornecedor.setCd_fornecedor(Long.parseLong(txtId.getText()));
+        fornecedor.setDs_bairro(txtBairro.getText());
+        fornecedor.setDs_cep(txtCep.getText());
+        fornecedor.setDs_cidade(txtCidade.getText());
+        fornecedor.setDs_email(txtEmail.getText());
+        fornecedor.setDs_endereco(txtEndereco.getText());
+        fornecedor.setDs_telefone(txtTelefone.getText());
+        fornecedor.setNm_fornecedor(txtNome.getText());
+        fornecedor.setDs_estado(boxEstado.getSelectedItem().toString());
+        fornecedor.setDs_cnpj(txtCnpj.getText());
+        
+        fornecedorDao.updateFornecedor(fornecedor);
+    }//GEN-LAST:event_btnEditarActionPerformed
 
-    private void txtEnderecoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEnderecoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtEnderecoActionPerformed
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        fornecedorDao.deleteFornecedor(Long.parseLong(txtId.getText()));
+        viewUtil.limparDados(jCadastro);
+    }//GEN-LAST:event_btnDeleteActionPerformed
+         
+    private void listarFornecedor(String nome){
+        List<FornecedorModel> lista = fornecedorDao.selectFornecedor(nome);
+        
+        DefaultTableModel dados = (DefaultTableModel) tblFornecedor.getModel();
+        dados.setRowCount(0);
+        
+        for(FornecedorModel fornecedor: lista){
+            dados.addRow(new Object[]{
+                fornecedor.getCd_fornecedor(),
+                fornecedor.getNm_fornecedor(),
+                fornecedor.getDs_telefone(),
+                fornecedor.getDs_cnpj(),
+                fornecedor.getDs_endereco(),
+                fornecedor.getDs_bairro(),
+                fornecedor.getDs_cidade(),
+                fornecedor.getDs_estado(),
+                fornecedor.getDs_cep(),
+                fornecedor.getDs_email()
+               
+        });
+        }
+        
+    }
 
-    private void txtBairroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBairroActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtBairroActionPerformed
+    
+    private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
+            listarFornecedor(null);
+    }//GEN-LAST:event_formWindowActivated
 
     private void txtCidadeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCidadeActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtCidadeActionPerformed
 
+    private void txtBairroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBairroActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtBairroActionPerformed
+
     private void boxEstadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boxEstadoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_boxEstadoActionPerformed
 
-    private void txtCpfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCpfActionPerformed
+    private void txtEnderecoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEnderecoActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtCpfActionPerformed
+    }//GEN-LAST:event_txtEnderecoActionPerformed
+    
+
+    
+    private void txtCepKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCepKeyPressed
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+            Endereco endereco;
+            try{
+                endereco = apiCep.getEndereco(txtCep.getText());
+                txtCidade.setText(endereco.getLocalidade());
+                txtEndereco.setText(endereco.getLogradouro());
+                txtBairro.setText(endereco.getBairro());
+                boxEstado.setSelectedItem(endereco.getUf());
+            }catch(IOException e){
+                JOptionPane.showMessageDialog(null, e);
+            }
+        }
+
+    }//GEN-LAST:event_txtCepKeyPressed
+
+    private void txtCepActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCepActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtCepActionPerformed
+
+    private void txtEmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEmailActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtEmailActionPerformed
+
+    private void txtTelefoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTelefoneActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtTelefoneActionPerformed
+
+    private void txtCnpjActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCnpjActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtCnpjActionPerformed
+
+    private void txtNomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNomeActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtNomeActionPerformed
+
+    private void txtIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtIdActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtIdActionPerformed
 
     private void txtPesquisaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPesquisaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtPesquisaActionPerformed
-    
-    /*
-    ao clicar no botao executa a acao de criar um objeto e salvar nesse objeto
-    os valores preenchido nos campos. Por fim, chama o clienteDao, para inserir esse objeto no banco
-    */
-    
-    private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
-        try{
-            cliente = new ClienteModel();
-            cliente.setNome(txtNome.getText());
-            cliente.setCpf(txtCpf.getText());
-            cliente.setDt_nascimento(txtDt_nascimento.getText());
-            cliente.setEmail(txtEmail.getText());
-            cliente.setTelefone(txtTelefone.getText());
-            cliente.setCep(txtCep.getText());
-            cliente.setEndereco(txtEndereco.getText());
-            cliente.setCidade(txtCidade.getText());
-            cliente.setBairro(txtBairro.getText());
-            cliente.setEstado(boxEstado.getSelectedItem().toString());
-            
-            
-            clienteDao.insertCliente(cliente);
-            viewModel.limparDados(jCadastro);
-        }catch(Exception e){
-            e.getStackTrace();
-        }
-    }//GEN-LAST:event_btnSalvarActionPerformed
-
-    private void btnNovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovoActionPerformed
-        viewModel.limparDados(jCadastro);
-    }//GEN-LAST:event_btnNovoActionPerformed
-
-    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
-        try{
-            cliente = new ClienteModel();
-            cliente.setNome(txtNome.getText());
-            cliente.setCpf(txtCpf.getText());
-            cliente.setDt_nascimento(txtDt_nascimento.getText());
-            cliente.setEmail(txtEmail.getText());
-            cliente.setTelefone(txtTelefone.getText());
-            cliente.setCep(txtCep.getText());
-            cliente.setEndereco(txtEndereco.getText());
-            cliente.setCidade(txtCidade.getText());
-            cliente.setBairro(txtBairro.getText());
-            cliente.setEstado(boxEstado.getSelectedItem().toString());
-            cliente.setId(Long.parseLong(txtId.getText()));
-            
-            clienteDao.updateCliente(cliente);
-            viewModel.limparDados(jCadastro);
-        }catch(Exception e){
-            e.getStackTrace();
-        }
-    }//GEN-LAST:event_btnEditarActionPerformed
-
-    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-        clienteDao.deleteCliente(Long.parseLong(txtId.getText()));
-        viewModel.limparDados(jCadastro);
-    }//GEN-LAST:event_btnDeleteActionPerformed
-
-    private void txtDt_nascimentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDt_nascimentoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtDt_nascimentoActionPerformed
-          
-    private final ClienteDao clienteDao = new ClienteDao();
-    private final ApiCep apiCep = new ApiCep();
-    private Endereco endereco;
-    private ClienteModel cliente;
-    private final ViewUtil viewModel = new ViewUtil();
-    
-    /*
-    Recebe uma string como parametro que sera usada para filtrar os clientes
-    caso entre como nulo, sera listado todos os clientes
-    */
-    private void listarCliente(String nm_cliente){
-        // recebe um lista de cliente
-        List<ClienteModel> lista = clienteDao.selectCliente(nm_cliente);
-        
-        /* forma de passar os dados de uma lista para a tabela
-         utilizando o DefaultTableModel pegamos o modelo da tblcliente
-        */
-        DefaultTableModel dados = (DefaultTableModel) tblCliente.getModel(); // criando o objeto que armazena os dados da lista no formato tabela do Java Swing
-        
-        // zera a listagem toda vez que a funcao eh chamada
-        dados.setRowCount(0);
-        
-        // adiciona os dados das colunas em cada linha da lista
-        // cada linha representa um objeto
-        for(ClienteModel cliente : lista){
-            dados.addRow(new Object[]{
-                cliente.getId(),
-                cliente.getNome(),
-                cliente.getTelefone(),
-                cliente.getString_nascimento(),
-                cliente.getCpf(),
-                cliente.getEndereco(),
-                cliente.getBairro(),
-                cliente.getCidade(),
-                cliente.getEstado(),
-                cliente.getCep(),
-                cliente.getEmail()
-            });
-           
-        }
-        
-    }
-    
-    /*
-    quando a janela eh executada, busca o proximo ID de cadastro
-    e chama a funcao listar cliente
-    */
-    private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
-        //txtId.setText(Integer.toString(clienteDao.selectLastId()));    
-        listarCliente(null);
-        
-    }//GEN-LAST:event_formWindowActivated
-    
-    /*
-    Quando o botao de busca eh pressionado
-    listar_cliente recebendo o parametro de entrada
-    o nome preenchido no campo de busca
-    */
-    private void btnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarActionPerformed
-
-        listarCliente(txtPesquisa.getText());
-    }//GEN-LAST:event_btnPesquisarActionPerformed
-    
-    /*
-    quando a tabela eh clicada com o mouse
-    jTabbedPane.setSelectedIndex define a aba que esta sendo exibida
-    ou seja, se eu estou na aba consulta e clico em algum cliente
-    serei enviado para a aba de cadastro
-    
-    Eh repassado todos os dados do cliente selecionado para os campos 
-    da tela de cadastro
-    */
-    private void tblClienteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblClienteMouseClicked
-        paneCadastro.setSelectedIndex(0);
-        try{
-        txtId.setText(tblCliente.getValueAt(tblCliente.getSelectedRow(), 0).toString());
-        txtNome.setText(tblCliente.getValueAt(tblCliente.getSelectedRow(), 1).toString());
-        txtTelefone.setText(tblCliente.getValueAt(tblCliente.getSelectedRow(), 2).toString());
-        txtDt_nascimento.setText(tblCliente.getValueAt(tblCliente.getSelectedRow(), 3).toString());
-        txtCpf.setText(tblCliente.getValueAt(tblCliente.getSelectedRow(), 4).toString());
-        txtEndereco.setText(tblCliente.getValueAt(tblCliente.getSelectedRow(), 5).toString());
-        txtBairro.setText(tblCliente.getValueAt(tblCliente.getSelectedRow(), 6).toString());
-        txtCidade.setText(tblCliente.getValueAt(tblCliente.getSelectedRow(), 7).toString());
-        txtCep.setText(tblCliente.getValueAt(tblCliente.getSelectedRow(), 9).toString());
-        txtEmail.setText(tblCliente.getValueAt(tblCliente.getSelectedRow(), 10).toString());
-        }catch(Exception e){
-            e.getStackTrace();
-        }
-    }//GEN-LAST:event_tblClienteMouseClicked
 
     private void txtPesquisaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPesquisaKeyPressed
-        listarCliente(txtPesquisa.getText());
+        
     }//GEN-LAST:event_txtPesquisaKeyPressed
 
-    private void txtCepKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCepKeyPressed
-        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
-            endereco = new Endereco();
-            try {
-                endereco = apiCep.getEndereco(txtCep.getText());
-                txtBairro.setText(endereco.getBairro());
-                txtEndereco.setText(endereco.getLogradouro());
-                txtCidade.setText(endereco.getLocalidade());
-                boxEstado.setSelectedItem(endereco.getUf());
-            } catch (IOException ex) {
-               ex.getStackTrace();
-            }
+    private void tblFornecedorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblFornecedorMouseClicked
+      paneCadastro.setSelectedIndex(0);
+        try {
+            txtId.setText(tblFornecedor.getValueAt( tblFornecedor.getSelectedRow(), 0).toString());
+            txtNome.setText(tblFornecedor.getValueAt( tblFornecedor.getSelectedRow(), 1).toString());
+            txtTelefone.setText(tblFornecedor.getValueAt( tblFornecedor.getSelectedRow(), 2).toString());
+            txtCnpj.setText(tblFornecedor.getValueAt( tblFornecedor.getSelectedRow(), 3).toString());
+            txtEndereco.setText(tblFornecedor.getValueAt( tblFornecedor.getSelectedRow(), 4).toString());
+            txtBairro.setText(tblFornecedor.getValueAt( tblFornecedor.getSelectedRow(), 5).toString());
+            txtCidade.setText(tblFornecedor.getValueAt( tblFornecedor.getSelectedRow(), 6).toString());
+            boxEstado.setSelectedItem(tblFornecedor.getValueAt(tblFornecedor.getSelectedRow(),7).toString());
+            txtCep.setText(tblFornecedor.getValueAt( tblFornecedor.getSelectedRow(), 8).toString());
+            txtEmail.setText(tblFornecedor.getValueAt( tblFornecedor.getSelectedRow(), 9).toString());
+   } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
         }
-    }//GEN-LAST:event_txtCepKeyPressed
-
+    }//GEN-LAST:event_tblFornecedorMouseClicked
+  
     /**
      * @param args the command line arguments
      */
@@ -771,14 +684,17 @@ public class FrmCliente extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FrmCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmFornecedor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FrmCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmFornecedor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FrmCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmFornecedor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FrmCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmFornecedor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         
         /* Create and display the form */
@@ -786,7 +702,7 @@ public class FrmCliente extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 
-                new FrmCliente().setVisible(true);
+                new FrmFornecedor().setVisible(true);
                 
             }
         });
@@ -800,14 +716,12 @@ public class FrmCliente extends javax.swing.JFrame {
     private javax.swing.JButton btnDelete;
     private javax.swing.JButton btnEditar;
     private javax.swing.JButton btnNovo;
-    private javax.swing.JButton btnPesquisar;
     private javax.swing.JButton btnSalvar;
     private javax.swing.JPanel jCadastro;
     private javax.swing.JPanel jConsulta;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -821,12 +735,11 @@ public class FrmCliente extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTabbedPane paneCadastro;
-    private javax.swing.JTable tblCliente;
+    private javax.swing.JTable tblFornecedor;
     private javax.swing.JTextField txtBairro;
     private javax.swing.JFormattedTextField txtCep;
     private javax.swing.JTextField txtCidade;
-    private javax.swing.JFormattedTextField txtCpf;
-    private javax.swing.JFormattedTextField txtDt_nascimento;
+    private javax.swing.JFormattedTextField txtCnpj;
     private javax.swing.JTextField txtEmail;
     private javax.swing.JTextField txtEndereco;
     private javax.swing.JTextField txtId;

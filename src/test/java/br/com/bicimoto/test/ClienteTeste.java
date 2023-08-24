@@ -6,7 +6,7 @@
 package br.com.bicimoto.test;
 
 import br.com.bicimoto.dao.ClienteDao;
-import br.com.bicimoto.model.ApiCep;
+import br.com.bicimoto.util.ApiCep;
 import br.com.bicimoto.model.ClienteModel;
 import java.io.IOException;
 import java.io.PrintStream;
