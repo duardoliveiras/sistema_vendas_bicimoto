@@ -5,6 +5,7 @@
 package br.com.bicimoto.dao;
 
 import br.com.bicimoto.jdbc.ConnectionDatabase;
+import br.com.bicimoto.model.FornecedorModel;
 import br.com.bicimoto.model.ProdutoModel;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -31,7 +32,7 @@ public class ProdutoDao {
             stmt.setFloat(3, produto.getVl_inicial());
             stmt.setFloat(4,produto.getVl_final());
             stmt.setInt(5,produto.getQt_produto());
-            stmt.setLong(6, produto.getCd_fornecedor());
+            stmt.setLong(6, produto.getFornecedorModel().getCd_fornecedor());
             
             stmt.execute();
             stmt.close();
@@ -55,7 +56,7 @@ public class ProdutoDao {
             stmt.setFloat(3, produto.getVl_inicial());
             stmt.setFloat(4,produto.getVl_final());
             stmt.setInt(5,produto.getQt_produto());
-            stmt.setLong(6, produto.getCd_produto());
+            stmt.setLong(6, produto.getFornecedorModel().getCd_fornecedor());
             
             int rows = stmt.executeUpdate();
             stmt.close();
@@ -121,27 +122,30 @@ public class ProdutoDao {
         ResultSet result;
         try(Connection connDb = ConnectionDatabase.getConnection()){
             if(nm_produto != null){
-                sql = "select cd_produto, nm_produto, cd_fornecedor, qt_produto, dt_atualizacao, vl_inicial, vl_final, ds_produto from produto where lower(nm_produto) like lower(?) ";
+                sql = "select a.cd_produto, a.nm_produto, b.nm_fornecedor, a.qt_produto, a.dt_atualizacao, a.vl_inicial, a.vl_final, a.ds_produto from produto a inner join fornecedor b on a.cd_fornecedor = b.cd_fornecedor where lower(nm_produto) like lower(?) ";
                 PreparedStatement stmt = connDb.prepareStatement(sql);
                 stmt.setString(1, "%" + nm_produto + "%");
                 result = stmt.executeQuery();
                 
             }else{
-                sql = "select cd_produto, nm_produto, cd_fornecedor, qt_produto, dt_atualizacao, vl_inicial, vl_final, ds_produto from produto";
+                sql = "select a.cd_produto, a.nm_produto, b.nm_fornecedor, b.qt_produto, a.dt_atualizacao, a.vl_inicial, a.vl_final, a.ds_produto from produto a inner join fornecedor on a.cd_fornecedor = b.cd_fornecedor";
                 Statement stmt = connDb.createStatement();
                 result = stmt.executeQuery(sql);
             }
            while(result.next()){
-               ProdutoModel produtoModel = new ProdutoModel();
+               ProdutoModel produtoModel = new ProdutoModel();           
+               FornecedorModel fornecedor = new FornecedorModel();
+               fornecedor.setNm_fornecedor(result.getString("nm_fornecedor"));
                
                produtoModel.setCd_produto(result.getLong("cd_produto"));
                produtoModel.setNm_produto(result.getString("nm_produto"));
-               produtoModel.setCd_fornecedor(result.getLong("cd_fornecedor"));
                produtoModel.setQt_produto(result.getInt("qt_produto"));
                produtoModel.setDt_atualizacao(result.getDate("dt_atualizacao"));
                produtoModel.setVl_inicial(result.getFloat("vl_inicial"));
                produtoModel.setVl_final(result.getFloat("vl_final"));
                produtoModel.setDs_produto(result.getString("ds_produto"));
+               
+               produtoModel.setFornecedorModel(fornecedor);
                lista.add(produtoModel);
            }
            

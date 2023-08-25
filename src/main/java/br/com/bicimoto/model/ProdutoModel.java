@@ -23,8 +23,17 @@ public class ProdutoModel {
     private int qt_produto;
     private Long cd_fornecedor;
     private Date dt_atualizacao;
+    private FornecedorModel fornecedorModel;
     
     private final SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+
+    public FornecedorModel getFornecedorModel() {
+        return fornecedorModel;
+    }
+
+    public void setFornecedorModel(FornecedorModel fornecedorModel) {
+        this.fornecedorModel = fornecedorModel;
+    }
     
     
     public Long getCd_produto() {

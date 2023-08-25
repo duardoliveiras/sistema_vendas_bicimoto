@@ -101,6 +101,11 @@ public class FornecedorModel {
         this.ds_telefone = ds_telefone;
     }
     
+    @Override
+    public String toString(){
+        return this.nm_fornecedor;
+    }
+    
     
            
     

@@ -132,6 +132,37 @@ public class FornecedorDao {
         return lista;
     }
     
+    public FornecedorModel selectOneFornecedor(String nome){
+        
+        FornecedorModel f = new FornecedorModel();
+        try(Connection connDb = ConnectionDatabase.getConnection()){
+            String sql = "select cd_fornecedor, nm_fornecedor, ds_telefone, ds_endereco, ds_cnpj, ds_email, ds_cep, ds_cidade, ds_estado, ds_bairro from fornecedor where nm_fornecedor =?";
+            PreparedStatement stmt = connDb.prepareStatement(sql);
+            stmt.setString(1, nome);
+            ResultSet result = stmt.executeQuery();
+            
+            
+            
+            if(result.next()){
+                f.setCd_fornecedor(result.getLong("cd_fornecedor"));
+                f.setDs_bairro(result.getString("ds_bairro"));
+                f.setDs_cep(result.getString("ds_cep"));
+                f.setDs_cidade(result.getString("ds_cidade"));
+                f.setDs_cnpj(result.getString("ds_cnpj"));
+                f.setDs_email(result.getString("ds_email"));
+                f.setDs_endereco(result.getString("ds_endereco"));
+                f.setDs_estado(result.getString("ds_estado"));
+                f.setDs_telefone(result.getString("ds_telefone"));
+                f.setNm_fornecedor(result.getString("nm_fornecedor"));
+            }
+            
+        }catch(SQLException e){
+            JOptionPane.showMessageDialog(null, e);
+        }
+        
+        return f;
+    }
+    
     
     
     

@@ -26,3 +26,15 @@ FROM public.cliente_cd_cliente_seq;
 select * from fornecedor;
 
 select cd_fornecedor, nm_fornecedor, ds_telefone, ds_endereco, ds_cnpj, ds_email, ds_cep, ds_cidade, ds_estado, ds_bairro from fornecedor;
+
+select * from produto;
+delete from produto where cd_produto  = 2;
+commit;
+
+select a.cd_produto, a.nm_produto, b.nm_fornecedor, a.qt_produto, a.dt_atualizacao, a.vl_inicial, a.vl_final, a.ds_produto from produto a inner join fornecedor b on a.cd_fornecedor = b.cd_fornecedor;
+
+
+
+
+truncate produto cascade;
+truncate fornecedor  cascade;
