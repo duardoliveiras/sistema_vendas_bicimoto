@@ -4,18 +4,33 @@
  */
 package br.com.bicimoto.view;
 
+import java.awt.event.KeyEvent;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Eduar
  */
 public class FrmPagamento extends javax.swing.JFrame {
-
+        float dinheiro;
+        float total;
+        float troco;
+        float cartao;
+        float pix;
     /**
      * Creates new form FrmPagamento
      */
     public FrmPagamento() {
         initComponents();
+        txtCartao.setText("0");
+        txtDinheiro.setText("0");
+        txtPix.setText("0");
+        
+        
+     
     }
+    
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -76,6 +91,11 @@ public class FrmPagamento extends javax.swing.JFrame {
                 txtPixActionPerformed(evt);
             }
         });
+        txtPix.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtPixKeyPressed(evt);
+            }
+        });
 
         txtCartao.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         txtCartao.addActionListener(new java.awt.event.ActionListener() {
@@ -94,6 +114,11 @@ public class FrmPagamento extends javax.swing.JFrame {
         txtDinheiro.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtDinheiroActionPerformed(evt);
+            }
+        });
+        txtDinheiro.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtDinheiroKeyPressed(evt);
             }
         });
 
@@ -256,6 +281,38 @@ public class FrmPagamento extends javax.swing.JFrame {
     private void btnFinalizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFinalizarActionPerformed
       
     }//GEN-LAST:event_btnFinalizarActionPerformed
+    
+        
+    private void calculaTroco(){
+        dinheiro = Float.parseFloat(txtDinheiro.getText());
+        pix = Float.parseFloat(txtPix.getText());;
+        cartao = Float.parseFloat(txtCartao.getText());
+        
+        float soma = dinheiro+pix+cartao;
+        
+        total = Float.parseFloat(txtTotal.getText());
+        
+        troco = soma-total;
+        if(troco < 0){
+            JOptionPane.showMessageDialog(null, "VALOR INSUFICIENTE");
+        }
+        
+    }
+        
+        
+    
+    private void txtDinheiroKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDinheiroKeyPressed
+       
+    }//GEN-LAST:event_txtDinheiroKeyPressed
+
+    private void txtPixKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPixKeyPressed
+
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+            calculaTroco();
+            txtTroco.setText(String.valueOf(troco));
+        }
+
+    }//GEN-LAST:event_txtPixKeyPressed
 
     /**
      * @param args the command line arguments
@@ -288,6 +345,7 @@ public class FrmPagamento extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new FrmPagamento().setVisible(true);
+                
             }
         });
     }
@@ -306,7 +364,7 @@ public class FrmPagamento extends javax.swing.JFrame {
     private javax.swing.JTextField txtCartao;
     private javax.swing.JTextField txtDinheiro;
     private javax.swing.JTextField txtPix;
-    private javax.swing.JTextField txtTotal;
+    public javax.swing.JTextField txtTotal;
     private javax.swing.JTextField txtTroco;
     // End of variables declaration//GEN-END:variables
 }

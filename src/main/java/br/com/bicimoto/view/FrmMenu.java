@@ -181,22 +181,26 @@ public class FrmMenu extends javax.swing.JFrame {
     private void jFornecedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jFornecedorActionPerformed
         FrmFornecedor frmFornecedor = new FrmFornecedor();
         frmFornecedor.setVisible(true);
+        this.dispose();
                
     }//GEN-LAST:event_jFornecedorActionPerformed
 
     private void jClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jClienteActionPerformed
         FrmCliente frmCliente = new FrmCliente();
         frmCliente.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_jClienteActionPerformed
 
     private void jVendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jVendaActionPerformed
         FrmVendas frmVendas = new FrmVendas();
         frmVendas.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_jVendaActionPerformed
 
     private void jProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jProdutoActionPerformed
         FrmProdutos frmProduto = new FrmProdutos();
         frmProduto.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_jProdutoActionPerformed
 
     private void jExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jExitActionPerformed

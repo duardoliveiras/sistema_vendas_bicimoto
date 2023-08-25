@@ -68,7 +68,7 @@ public class FrmVendas extends javax.swing.JFrame {
         btnAdicionar = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jItens = new javax.swing.JTable();
+        tblItens = new javax.swing.JTable();
         jPanel5 = new javax.swing.JPanel();
         txtTotal = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
@@ -351,8 +351,8 @@ public class FrmVendas extends javax.swing.JFrame {
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Itens", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 14), new java.awt.Color(0, 0, 0))); // NOI18N
 
-        jItens.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jItens.setModel(new javax.swing.table.DefaultTableModel(
+        tblItens.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        tblItens.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -360,7 +360,7 @@ public class FrmVendas extends javax.swing.JFrame {
                 "Código", "Produto", "Quantidade", "Preço", "Subtotal"
             }
         ));
-        jScrollPane1.setViewportView(jItens);
+        jScrollPane1.setViewportView(tblItens);
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -525,9 +525,34 @@ public class FrmVendas extends javax.swing.JFrame {
     private void btnPesquisarProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarProdutoActionPerformed
 
     }//GEN-LAST:event_btnPesquisarProdutoActionPerformed
-
+    private int qtd;
+    private float preco;
+    private float subtotal;
+    private float total;
+    
+    
+    // funcao que calcula o subtotal de total
+    private void calculaValores(){
+        qtd = Integer.parseInt(txtQuantidade.getText());
+        preco = Float.parseFloat(txtPreco.getText());
+        subtotal = qtd*preco;
+        total += subtotal;
+    }
+    
     private void btnAdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarActionPerformed
-
+        calculaValores();   // executa a funcao a cada clique de adicao
+        DefaultTableModel dados = (DefaultTableModel) tblItens.getModel();
+           dados.addRow(new Object[]{
+               txtCdProduto.getText(),
+               txtNomeProduto.getText(),
+               String.valueOf(qtd),
+               String.valueOf(preco),
+               String.valueOf(subtotal)
+      
+           });
+           
+           // atualiza o campo do valor total
+        txtTotal.setText( String.valueOf(total) );
     }//GEN-LAST:event_btnAdicionarActionPerformed
 
     private void txtTotalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTotalActionPerformed
@@ -535,11 +560,14 @@ public class FrmVendas extends javax.swing.JFrame {
     }//GEN-LAST:event_txtTotalActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-
+          
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnPagamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPagamentoActionPerformed
-
+           FrmPagamento frmPagamento = new FrmPagamento();
+           frmPagamento.txtTotal.setText(txtTotal.getText());
+           frmPagamento.setVisible(true);
+           this.dispose();
     }//GEN-LAST:event_btnPagamentoActionPerformed
 
     private ClienteModel cliente;
@@ -613,7 +641,6 @@ public class FrmVendas extends javax.swing.JFrame {
     private javax.swing.JButton btnPagamento;
     private javax.swing.JButton btnPesquisarCliente;
     private javax.swing.JButton btnPesquisarProduto;
-    private javax.swing.JTable jItens;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
@@ -629,6 +656,7 @@ public class FrmVendas extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable tblItens;
     private javax.swing.JTextField txtCdProduto;
     private javax.swing.JFormattedTextField txtCpf;
     private javax.swing.JFormattedTextField txtDtVenda;

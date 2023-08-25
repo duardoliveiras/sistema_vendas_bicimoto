@@ -79,6 +79,7 @@ public class FrmCliente extends javax.swing.JFrame {
         btnNovo = new javax.swing.JButton();
         btnEditar = new javax.swing.JButton();
         btnDelete = new javax.swing.JButton();
+        btnDelete1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Clientes");
@@ -498,6 +499,15 @@ public class FrmCliente extends javax.swing.JFrame {
             }
         });
 
+        btnDelete1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnDelete1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/back.png"))); // NOI18N
+        btnDelete1.setText("VOLTAR");
+        btnDelete1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDelete1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
@@ -511,7 +521,9 @@ public class FrmCliente extends javax.swing.JFrame {
                 .addComponent(btnEditar)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnDelete)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnDelete1)
+                .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -521,7 +533,8 @@ public class FrmCliente extends javax.swing.JFrame {
                     .addComponent(btnNovo)
                     .addComponent(btnSalvar)
                     .addComponent(btnEditar)
-                    .addComponent(btnDelete))
+                    .addComponent(btnDelete)
+                    .addComponent(btnDelete1))
                 .addContainerGap(26, Short.MAX_VALUE))
         );
 
@@ -762,6 +775,10 @@ public class FrmCliente extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_txtCepKeyPressed
 
+    private void btnDelete1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDelete1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnDelete1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -806,6 +823,7 @@ public class FrmCliente extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> boxEstado;
     private javax.swing.JButton btnDelete;
+    private javax.swing.JButton btnDelete1;
     private javax.swing.JButton btnEditar;
     private javax.swing.JButton btnNovo;
     private javax.swing.JButton btnPesquisar;
