@@ -159,4 +159,52 @@ public class ProdutoDao {
         
     }
     
+    public ProdutoModel selectProdutoNome(String nm_produto){
+        ProdutoModel produtoModel = new ProdutoModel();
+        String sql = "SELECT cd_produto, nm_produto, ds_produto, vl_inicial, vl_final, qt_produto, cd_fornecedor, dt_atualizacao from produto where nm_produto =?";
+        ResultSet result;
+        try(Connection connDb = ConnectionDatabase.getConnection()) {
+            PreparedStatement stmt = connDb.prepareStatement(sql);
+            stmt.setString(1, nm_produto );
+            result = stmt.executeQuery();
+            if(result.next()){
+               produtoModel.setCd_produto(result.getLong("cd_produto"));
+               produtoModel.setNm_produto(result.getString("nm_produto"));
+               produtoModel.setQt_produto(result.getInt("qt_produto"));
+               produtoModel.setDt_atualizacao(result.getDate("dt_atualizacao"));
+               produtoModel.setVl_inicial(result.getFloat("vl_inicial"));
+               produtoModel.setVl_final(result.getFloat("vl_final"));
+               produtoModel.setDs_produto(result.getString("ds_produto"));
+               produtoModel.setCd_fornecedor(result.getLong("cd_fornecedor"));
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e, "Erro Consulta", 2);
+        }
+        return produtoModel;
+    }
+    
+        public ProdutoModel selectProdutoId(Long id){
+        ProdutoModel produtoModel = new ProdutoModel();
+        String sql = "SELECT cd_produto, nm_produto, ds_produto, vl_inicial, vl_final, qt_produto, cd_fornecedor, dt_atualizacao from produto where cd_produto =?";
+        ResultSet result;
+        try(Connection connDb = ConnectionDatabase.getConnection()) {
+            PreparedStatement stmt = connDb.prepareStatement(sql);
+            stmt.setLong(1, id );
+            result = stmt.executeQuery();
+            if(result.next()){
+               produtoModel.setCd_produto(result.getLong("cd_produto"));
+               produtoModel.setNm_produto(result.getString("nm_produto"));
+               produtoModel.setQt_produto(result.getInt("qt_produto"));
+               produtoModel.setDt_atualizacao(result.getDate("dt_atualizacao"));
+               produtoModel.setVl_inicial(result.getFloat("vl_inicial"));
+               produtoModel.setVl_final(result.getFloat("vl_final"));
+               produtoModel.setDs_produto(result.getString("ds_produto"));
+               produtoModel.setCd_fornecedor(result.getLong("cd_fornecedor"));
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e, "Erro Consulta", 2);
+        }
+        return produtoModel;
+    }
+    
 }

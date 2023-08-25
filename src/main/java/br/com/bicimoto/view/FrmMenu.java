@@ -42,6 +42,7 @@ public class FrmMenu extends javax.swing.JFrame {
         jExit = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Bicimoto");
         setBackground(new java.awt.Color(255, 255, 255));
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowActivated(java.awt.event.WindowEvent evt) {
@@ -170,6 +171,7 @@ public class FrmMenu extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
         
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
@@ -188,7 +190,8 @@ public class FrmMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_jClienteActionPerformed
 
     private void jVendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jVendaActionPerformed
-        // TODO add your handling code here:
+        FrmVendas frmVendas = new FrmVendas();
+        frmVendas.setVisible(true);
     }//GEN-LAST:event_jVendaActionPerformed
 
     private void jProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jProdutoActionPerformed
