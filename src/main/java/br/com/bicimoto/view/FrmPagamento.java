@@ -103,6 +103,11 @@ public class FrmPagamento extends javax.swing.JFrame {
                 txtCartaoActionPerformed(evt);
             }
         });
+        txtCartao.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtCartaoKeyPressed(evt);
+            }
+        });
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel6.setText("CARTÃO:");
@@ -302,7 +307,9 @@ public class FrmPagamento extends javax.swing.JFrame {
         
     
     private void txtDinheiroKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDinheiroKeyPressed
-       
+         if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+            txtCartao.requestFocus();
+        }
     }//GEN-LAST:event_txtDinheiroKeyPressed
 
     private void txtPixKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPixKeyPressed
@@ -310,9 +317,16 @@ public class FrmPagamento extends javax.swing.JFrame {
         if(evt.getKeyCode() == KeyEvent.VK_ENTER){
             calculaTroco();
             txtTroco.setText(String.valueOf(troco));
+            btnFinalizar.requestFocus();
         }
 
     }//GEN-LAST:event_txtPixKeyPressed
+
+    private void txtCartaoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCartaoKeyPressed
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+            txtPix.requestFocus();
+        }
+    }//GEN-LAST:event_txtCartaoKeyPressed
 
     /**
      * @param args the command line arguments
