@@ -206,5 +206,26 @@ public class ProdutoDao {
         }
         return produtoModel;
     }
+        
+        public void atualizaEstoque(ProdutoModel produto, int quantidade){
+            String sql = "update produto set qt_produto=qt_produto-? where cd_produto =?";
+            try(Connection connDb = ConnectionDatabase.getConnection()){
+                PreparedStatement stmt = connDb.prepareStatement(sql);
+                
+                stmt.setInt(1, quantidade);
+                stmt.setLong(2, produto.getCd_produto());
+                
+                int rows = stmt.executeUpdate();
+                
+                if(rows == 0){
+                    JOptionPane.showMessageDialog(null, "Erro ao atualizar estoque", "Erro", 2);
+                }
+                stmt.close();
+                connDb.close();
+                
+            }catch(SQLException e){
+                JOptionPane.showMessageDialog(null, e, "Erro", 2);
+            }
+        }
     
 }

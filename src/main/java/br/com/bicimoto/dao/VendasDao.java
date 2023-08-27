@@ -11,6 +11,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import javax.swing.JOptionPane;
 
 /**
@@ -54,9 +55,30 @@ public class VendasDao {
             stmt.close();
             connDb.close();
             
+            JOptionPane.showMessageDialog(null, "Venda efetuada com sucesso!");
+            
+            
         }catch(SQLException e){
             JOptionPane.showMessageDialog(null, e);
         }
+    }
+    
+    public Long selectUltimaVenda(){
+        String sql = "select max(cd_venda) from venda";
+        ResultSet result;
+        Long cd_venda = (long) 0;
+        try(Connection connDb = ConnectionDatabase.getConnection()){
+                Statement stmt = connDb.createStatement();
+                result = stmt.executeQuery(sql);
+                
+                if(result.next()){
+                    cd_venda = result.getLong(1);
+                }
+            
+        }catch(SQLException e){
+            JOptionPane.showMessageDialog(null, e);
+        }
+        return cd_venda;
     }
      
     

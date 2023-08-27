@@ -47,6 +47,8 @@ public class VendasTest {
         venda.setVl_total((float) 255.63);
         
         vendasDao.insertVenda(venda);
+        Long cd_venda = vendasDao.selectUltimaVenda();
+        System.out.println(cd_venda);
     }
     
 }

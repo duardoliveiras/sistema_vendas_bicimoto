@@ -16,14 +16,9 @@ public class ItensModel {
     private int quantidade;
     private float subtotal;
 
-    public ProdutoModel getProduto() {
-        return produto;
-    }
-
-    public void setProduto(ProdutoModel produto) {
-        this.produto = produto;
-    }
-
+ 
+    
+    
     
     
     public Long getCd_item() {
@@ -42,6 +37,17 @@ public class ItensModel {
         this.venda = venda;
     }
 
+    public ProdutoModel getProduto() {
+        return produto;
+    }
+
+    public void setProduto(ProdutoModel produto) {
+        this.produto = produto;
+    }
+
+    
+
+    
     public int getQuantidade() {
         return quantidade;
     }

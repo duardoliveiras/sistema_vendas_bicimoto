@@ -16,6 +16,17 @@ public class VendasModel {
     private float vl_total;
     private ClienteModel cliente;
     private String ds_pagemento;
+    private String ds_observacao;
+
+    public String getDs_observacao() {
+        return ds_observacao;
+    }
+
+    public void setDs_observacao(String ds_observacao) {
+        this.ds_observacao = ds_observacao;
+    }
+    
+    
 
     public String getDs_pagemento() {
         return ds_pagemento;
