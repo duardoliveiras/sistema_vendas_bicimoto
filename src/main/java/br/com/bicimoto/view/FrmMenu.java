@@ -19,7 +19,8 @@ public class FrmMenu extends javax.swing.JFrame {
      */
     public FrmMenu() {
         initComponents();
-  
+        String classpath = System.getProperty("java.class.path");
+        System.out.println("Classpath: " + classpath);
         
     }
 

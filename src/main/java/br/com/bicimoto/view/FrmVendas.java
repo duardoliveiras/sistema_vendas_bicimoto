@@ -93,7 +93,6 @@ public class FrmVendas extends javax.swing.JFrame {
         jPanel6 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblCItens = new javax.swing.JTable();
-        jItens = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -719,19 +718,6 @@ public class FrmVendas extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Consultar vendas", jVendas);
 
-        javax.swing.GroupLayout jItensLayout = new javax.swing.GroupLayout(jItens);
-        jItens.setLayout(jItensLayout);
-        jItensLayout.setHorizontalGroup(
-            jItensLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1029, Short.MAX_VALUE)
-        );
-        jItensLayout.setVerticalGroup(
-            jItensLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 509, Short.MAX_VALUE)
-        );
-
-        jTabbedPane1.addTab("Detalhe vendas", jItens);
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -977,7 +963,6 @@ public class FrmVendas extends javax.swing.JFrame {
     private javax.swing.JButton btnPesquisarCliente1;
     private javax.swing.JButton btnPesquisarProduto;
     private javax.swing.JButton btnVoltar;
-    private javax.swing.JPanel jItens;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
