@@ -16,10 +16,11 @@ public class ItensModel {
     private int quantidade;
     private float subtotal;
 
- 
-    
-    
-    
+    @Override
+    public String toString() {
+        return "ItensModel{" +  "produto=" + produto.getNm_produto() + ", quantidade=" + quantidade + ", subtotal=" + subtotal + '}';
+    }
+
     
     public Long getCd_item() {
         return cd_item;

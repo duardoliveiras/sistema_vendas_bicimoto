@@ -17,6 +17,17 @@ public class VendasModel {
     private ClienteModel cliente;
     private String ds_pagemento;
     private String ds_observacao;
+    private Date dt_venda;
+
+    public Date getDt_venda() {
+        return dt_venda;
+    }
+
+    public void setDt_venda(Date dt_venda) {
+        this.dt_venda = dt_venda;
+    }
+    
+    
 
     public String getDs_observacao() {
         return ds_observacao;
@@ -63,4 +74,10 @@ public class VendasModel {
         this.vl_total = vl_total;
     }
 
+    @Override
+    public String toString() {
+        return "VendasModel{" + "cd_venda=" + cd_venda + ", vl_total=" + vl_total + ", cliente=" + cliente + ", ds_pagemento=" + ds_pagemento + ", ds_observacao=" + ds_observacao + ", dt_venda=" + dt_venda + '}';
+    }
+
+    
 }

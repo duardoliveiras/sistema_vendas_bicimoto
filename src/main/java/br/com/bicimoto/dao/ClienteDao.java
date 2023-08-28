@@ -205,6 +205,39 @@ public class ClienteDao {
         return cliente;
     }
     
+    public ClienteModel selectClienteId(Long id){
+        String sql = "SELECT cd_cliente, nm_cliente, ds_telefone, dt_nascimento, ds_cpf, ds_email, ds_cep, ds_endereco, ds_cidade, ds_bairro, ds_estado from cliente where cd_cliente=?";
+        ClienteModel cliente = new ClienteModel();
+        ResultSet result;
+        
+        try(Connection connDb = ConnectionDatabase.getConnection()) {
+            PreparedStatement stmt = connDb.prepareStatement(sql);
+            stmt.setLong(1, id);
+            
+            result = stmt.executeQuery();
+            
+            if(result.next()){
+                cliente.setBairro(result.getString("ds_bairro"));
+                cliente.setCep(result.getString("ds_cep"));
+                cliente.setCidade(result.getString("ds_cidade"));
+                cliente.setCpf(result.getString("ds_cpf"));
+                cliente.setDt_nascimento(result.getDate("dt_nascimento"));                
+                cliente.setEmail(result.getString("ds_email"));
+                cliente.setEndereco(result.getString("ds_endereco"));
+                cliente.setEstado(result.getString("ds_estado"));
+                cliente.setId(result.getLong("cd_cliente"));
+                cliente.setNome(result.getString("nm_cliente"));
+                cliente.setTelefone(result.getString("ds_telefone"));
+            }
+            
+            stmt.close();
+            
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e, "Consulta", 2);
+        }
+        return cliente;
+    }
+    
 
     // seleciona o ultimo proximo valor a ser cadastrado como cd_cliente
     public int selectLastId(){
