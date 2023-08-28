@@ -11,10 +11,12 @@ import br.com.bicimoto.util.Endereco;
 import br.com.bicimoto.util.ViewUtil;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
+import java.text.ParseException;
 
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -611,32 +613,50 @@ public class FrmCliente extends javax.swing.JFrame {
     */
     
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
-        try{
-            cliente = new ClienteModel();
-            cliente.setNome(txtNome.getText());
-            cliente.setCpf(txtCpf.getText());
-            cliente.setDt_nascimento(txtDt_nascimento.getText());
-            cliente.setEmail(txtEmail.getText());
-            cliente.setTelefone(txtTelefone.getText());
-            cliente.setCep(txtCep.getText());
-            cliente.setEndereco(txtEndereco.getText());
-            cliente.setCidade(txtCidade.getText());
-            cliente.setBairro(txtBairro.getText());
-            cliente.setEstado(boxEstado.getSelectedItem().toString());
+        if(!txtId.getText().trim().isEmpty()){ // verifica se o campo id esta vazio, se nao estiver execute a acao de editar
+            atualizaCliente();
+        }else{
+            try { // tenta encaixar o valor do campo data dentro do formato, se disparar um exception quer dizer que ta mal preenchido ou vazio
+                txtDt_nascimento.getFormatter().stringToValue(txtDt_nascimento.getText());
+                txtCpf.getFormatter().stringToValue(txtCpf.getText());
+                
+                if(txtNome.getText().trim().isEmpty()){
+                    JOptionPane.showMessageDialog(null, "Preencha o CPF, Data de nascimento e nome", "Campos vazios", 0);
+                }
+                
+                else{ 
+                    try{
+                    cliente = new ClienteModel();
+                    cliente.setNome(txtNome.getText());
+                    cliente.setCpf(txtCpf.getText());
+                    cliente.setDt_nascimento(txtDt_nascimento.getText());
+                    cliente.setEmail(txtEmail.getText());
+                    cliente.setTelefone(txtTelefone.getText());
+                    cliente.setCep(txtCep.getText());
+                    cliente.setEndereco(txtEndereco.getText());
+                    cliente.setCidade(txtCidade.getText());
+                    cliente.setBairro(txtBairro.getText());
+                    cliente.setEstado(boxEstado.getSelectedItem().toString());
+                    
             
-            
-            clienteDao.insertCliente(cliente);
-            viewModel.limparDados(jCadastro);
-        }catch(Exception e){
-            e.getStackTrace();
+                    clienteDao.insertCliente(cliente);
+                    viewModel.limparDados(jCadastro);
+                }catch(Exception e){
+                    JOptionPane.showMessageDialog(null, e);
+                }
+                }
+            } catch (ParseException e) {
+                JOptionPane.showMessageDialog(null, "Preencha o CPF, Data de nascimento e nome", "Campos vazios", 0);
+            }
         }
     }//GEN-LAST:event_btnSalvarActionPerformed
 
     private void btnNovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovoActionPerformed
         viewModel.limparDados(jCadastro);
     }//GEN-LAST:event_btnNovoActionPerformed
-
-    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
+    
+    private void atualizaCliente(){
+        if(!txtId.getText().trim().isEmpty()){
         try{
             cliente = new ClienteModel();
             cliente.setNome(txtNome.getText());
@@ -654,13 +674,24 @@ public class FrmCliente extends javax.swing.JFrame {
             clienteDao.updateCliente(cliente);
             viewModel.limparDados(jCadastro);
         }catch(Exception e){
-            e.getStackTrace();
+             JOptionPane.showMessageDialog(null, e);
         }
+        }else{
+            JOptionPane.showMessageDialog(null, "Selecione um cliente para editar", "Campos vazios", 0);
+        }    
+    }
+    
+    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
+        atualizaCliente();
     }//GEN-LAST:event_btnEditarActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        if(!txtId.getText().trim().isEmpty()){
         clienteDao.deleteCliente(Long.parseLong(txtId.getText()));
         viewModel.limparDados(jCadastro);
+        }else{
+            JOptionPane.showMessageDialog(null, "Selecione um cliente para excluir", "Campos vazios", 0);
+        }        
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void txtDt_nascimentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDt_nascimentoActionPerformed

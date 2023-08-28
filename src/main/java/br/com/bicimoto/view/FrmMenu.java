@@ -5,6 +5,7 @@
 package br.com.bicimoto.view;
 
 import java.awt.Image;
+import java.awt.event.KeyEvent;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
@@ -19,9 +20,7 @@ public class FrmMenu extends javax.swing.JFrame {
      */
     public FrmMenu() {
         initComponents();
-        String classpath = System.getProperty("java.class.path");
-        System.out.println("Classpath: " + classpath);
-        
+
     }
 
     /**
@@ -50,6 +49,11 @@ public class FrmMenu extends javax.swing.JFrame {
                 formWindowActivated(evt);
             }
         });
+        addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                formKeyPressed(evt);
+            }
+        });
 
         jPanel1.setBackground(new java.awt.Color(0, 153, 51));
 
@@ -72,6 +76,11 @@ public class FrmMenu extends javax.swing.JFrame {
         );
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel2.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jPanel2KeyPressed(evt);
+            }
+        });
 
         jCliente.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jCliente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/public-relation.png"))); // NOI18N
@@ -207,6 +216,13 @@ public class FrmMenu extends javax.swing.JFrame {
     private void jExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jExitActionPerformed
        System.exit(0);
     }//GEN-LAST:event_jExitActionPerformed
+
+    private void formKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyPressed
+     
+    }//GEN-LAST:event_formKeyPressed
+
+    private void jPanel2KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jPanel2KeyPressed
+    }//GEN-LAST:event_jPanel2KeyPressed
 
     /**
      * @param args the command line arguments

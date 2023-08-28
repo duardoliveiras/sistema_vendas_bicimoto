@@ -14,6 +14,7 @@ import br.com.bicimoto.model.ItensModel;
 import br.com.bicimoto.model.ProdutoModel;
 import br.com.bicimoto.model.VendasModel;
 import java.awt.event.KeyEvent;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -73,7 +74,7 @@ public class FrmVendas extends javax.swing.JFrame {
         jPanel7 = new javax.swing.JPanel();
         txtTotal = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
-        btnCancelar = new javax.swing.JButton();
+        btnRemover = new javax.swing.JButton();
         btnPagamento = new javax.swing.JButton();
         jVendas = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
@@ -426,12 +427,12 @@ public class FrmVendas extends javax.swing.JFrame {
         jLabel6.setForeground(new java.awt.Color(0, 0, 0));
         jLabel6.setText("Total:");
 
-        btnCancelar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/cancel.png"))); // NOI18N
-        btnCancelar.setText("CANCELAR");
-        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+        btnRemover.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnRemover.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/cancel.png"))); // NOI18N
+        btnRemover.setText("REMOVER");
+        btnRemover.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCancelarActionPerformed(evt);
+                btnRemoverActionPerformed(evt);
             }
         });
 
@@ -456,7 +457,7 @@ public class FrmVendas extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnPagamento)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnCancelar)
+                .addComponent(btnRemover)
                 .addContainerGap())
         );
         jPanel7Layout.setVerticalGroup(
@@ -466,7 +467,7 @@ public class FrmVendas extends javax.swing.JFrame {
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(btnPagamento)
-                        .addComponent(btnCancelar))
+                        .addComponent(btnRemover))
                     .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                         .addComponent(txtTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel6)))
@@ -744,11 +745,13 @@ public class FrmVendas extends javax.swing.JFrame {
     private void txtCpftxtCpfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCpftxtCpfActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtCpftxtCpfActionPerformed
-
+    private void procuraCliente(){
+        cliente = clienteDao.selectClienteCpf(txtCpf.getText());
+        txtNomeCliente.setText(cliente.getNome());
+    }
     private void txtCpftxtCpfKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCpftxtCpfKeyPressed
         if(evt.getKeyCode() == KeyEvent.VK_ENTER){
-            cliente = clienteDao.selectClienteCpf(txtCpf.getText());
-            txtNomeCliente.setText(cliente.getNome());
+            procuraCliente();
         }
     }//GEN-LAST:event_txtCpftxtCpfKeyPressed
 
@@ -757,19 +760,21 @@ public class FrmVendas extends javax.swing.JFrame {
     }//GEN-LAST:event_txtDtVendatxtDtVendaActionPerformed
 
     private void btnPesquisarClientebtnPesquisarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarClientebtnPesquisarClienteActionPerformed
-
+            procuraCliente();
     }//GEN-LAST:event_btnPesquisarClientebtnPesquisarClienteActionPerformed
 
     private void txtCdProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCdProdutoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtCdProdutoActionPerformed
-
+    
+    private void procuraProduto(){
+        produto = produtoDao.selectProdutoId(Long.parseLong(txtCdProduto.getText()));
+        txtNomeProduto.setText(produto.getNm_produto());
+        txtPreco.setText(String.valueOf(produto.getVl_final()));
+    }
     private void txtCdProdutoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCdProdutoKeyPressed
         if(evt.getKeyCode() == KeyEvent.VK_ENTER){
-            produto = produtoDao.selectProdutoId(Long.parseLong(txtCdProduto.getText()));
-            txtNomeProduto.setText(produto.getNm_produto());
-            txtPreco.setText(String.valueOf(produto.getVl_final()));
-
+            procuraProduto();
         }
     }//GEN-LAST:event_txtCdProdutoKeyPressed
 
@@ -786,7 +791,7 @@ public class FrmVendas extends javax.swing.JFrame {
     }//GEN-LAST:event_txtQuantidadeActionPerformed
 
     private void btnPesquisarProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarProdutoActionPerformed
-
+            procuraProduto();
     }//GEN-LAST:event_btnPesquisarProdutoActionPerformed
     private int qtd;
     private float preco;
@@ -803,9 +808,11 @@ public class FrmVendas extends javax.swing.JFrame {
     }
         
     private void btnAdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarActionPerformed
-        calculaValores();   // executa a funcao a cada clique de adicao
-        itens = (DefaultTableModel) tblItens.getModel();
-        itens.addRow(new Object[]{
+        
+        if(!txtQuantidade.getText().trim().isEmpty()){
+            calculaValores();   // executa a funcao a cada clique de adicao
+            itens = (DefaultTableModel) tblItens.getModel();
+            itens.addRow(new Object[]{
             txtCdProduto.getText(),
             txtNomeProduto.getText(),
             String.valueOf(qtd),
@@ -815,16 +822,27 @@ public class FrmVendas extends javax.swing.JFrame {
         });
 
         // atualiza o campo do valor total
-        txtTotal.setText( String.valueOf(total) );
+        txtTotal.setText( String.valueOf(df.format(total)) );
+        }else{
+            JOptionPane.showMessageDialog(null, "Informe a quantidade", "Campos vazios", 0);
+            
+        }
     }//GEN-LAST:event_btnAdicionarActionPerformed
 
     private void txtTotalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTotalActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtTotalActionPerformed
 
-    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-
-    }//GEN-LAST:event_btnCancelarActionPerformed
+    private void btnRemoverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoverActionPerformed
+         DefaultTableModel dtItens = (DefaultTableModel) tblItens.getModel();
+         dtItens.removeRow(tblItens.getSelectedRow());
+         float totalAtualizado = 0;
+         for(int i = 0 ; i < dtItens.getRowCount(); i++){
+             totalAtualizado += Float.parseFloat(dtItens.getValueAt(i, 4).toString());
+         }
+         txtTotal.setText( String.valueOf(df.format(totalAtualizado)));
+         
+    }//GEN-LAST:event_btnRemoverActionPerformed
 
     
     private final VendasDao vendasDao = new VendasDao();
@@ -833,18 +851,25 @@ public class FrmVendas extends javax.swing.JFrame {
     private ClienteModel cliente;
     private final ClienteDao clienteDao = new ClienteDao();
     
+    private final DecimalFormat df = new DecimalFormat("#.##");
+    
     private ProdutoModel produto;
     private ProdutoDao produtoDao = new ProdutoDao();
+    
     private void btnPagamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPagamentoActionPerformed
 
-        FrmPagamento frmPagamento = new FrmPagamento();
+        if(tblItens.getRowCount() > 0 && !txtNomeCliente.getText().trim().isEmpty()){
+            FrmPagamento frmPagamento = new FrmPagamento();
 
-        frmPagamento.txtTotal.setText(txtTotal.getText());
+            frmPagamento.txtTotal.setText(txtTotal.getText());
 
-        frmPagamento.cliente = this.cliente;
-        frmPagamento.itens = this.itens;
-        frmPagamento.setVisible(true);
-        this.dispose();
+            frmPagamento.cliente = this.cliente;
+            frmPagamento.itens = this.itens;
+            frmPagamento.setVisible(true);
+            this.dispose();
+        }else{
+            JOptionPane.showMessageDialog(null, "Adicione o cliente e os produtos", "Campos vazios", 0);
+        }
     }//GEN-LAST:event_btnPagamentoActionPerformed
 
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
@@ -854,6 +879,7 @@ public class FrmVendas extends javax.swing.JFrame {
 
     private void btnPesquisarCliente1btnPesquisarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarCliente1btnPesquisarClienteActionPerformed
         DefaultTableModel dadosVenda = (DefaultTableModel) tblCVendas.getModel();
+        
         dadosVenda.setNumRows(0);
 
         cTotal = 0;
@@ -873,9 +899,9 @@ public class FrmVendas extends javax.swing.JFrame {
             }
        
             
-            txtCTotal.setText(String.valueOf(cTotal));
+            txtCTotal.setText(String.valueOf(df.format(cTotal)) +" R$");
         } catch (ParseException e) {
-            JOptionPane.showMessageDialog(null, e);
+           JOptionPane.showMessageDialog(null, "Preencha a data inicial e final", "Campos vazios", 0);
         }
         
         
@@ -887,13 +913,12 @@ public class FrmVendas extends javax.swing.JFrame {
         try {
             Long cd_venda = Long.parseLong(tblCVendas.getValueAt(tblCVendas.getSelectedRow(), 0).toString());
             
-            txtCVenda.setText( tblCVendas.getValueAt(tblCVendas.getSelectedRow(), 3).toString() );
+            txtCVenda.setText( tblCVendas.getValueAt(tblCVendas.getSelectedRow(), 3).toString() + " R$");
             
             List<ItensModel> lista = itensDao.selectTodosItens(cd_venda);
 
 
             for(ItensModel item : lista){
-                System.out.println(item);
                 dadosItens.addRow(new Object[]{
                     item.getQuantidade(),
                     item.getProduto().getNm_produto(),
@@ -957,11 +982,11 @@ public class FrmVendas extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdicionar;
-    private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnPagamento;
     private javax.swing.JButton btnPesquisarCliente;
     private javax.swing.JButton btnPesquisarCliente1;
     private javax.swing.JButton btnPesquisarProduto;
+    private javax.swing.JButton btnRemover;
     private javax.swing.JButton btnVoltar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;

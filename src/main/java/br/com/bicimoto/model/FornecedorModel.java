@@ -20,6 +20,8 @@ public class FornecedorModel {
     private String ds_estado;
     private String ds_bairro;
     private String ds_telefone;
+    
+    
 
     public Long getCd_fornecedor() {
         return cd_fornecedor;

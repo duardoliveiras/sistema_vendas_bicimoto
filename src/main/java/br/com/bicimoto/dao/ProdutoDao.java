@@ -23,6 +23,8 @@ import javax.swing.plaf.OptionPaneUI;
  */
 public class ProdutoDao {
     
+    private final FornecedorDao fornecedorDao = new FornecedorDao();
+    
     public void insertProduto(ProdutoModel produto){
         try(Connection connDb = ConnectionDatabase.getConnection()) {
             String sql = "insert into produto(nm_produto, ds_produto, vl_inicial, vl_final, qt_produto, cd_fornecedor, dt_atualizacao) values(?,?,?,?,?,?, now() )";
@@ -56,7 +58,7 @@ public class ProdutoDao {
             stmt.setFloat(3, produto.getVl_inicial());
             stmt.setFloat(4,produto.getVl_final());
             stmt.setInt(5,produto.getQt_produto());
-            stmt.setLong(6, produto.getFornecedorModel().getCd_fornecedor());
+            stmt.setLong(6, produto.getCd_produto());
             
             int rows = stmt.executeUpdate();
             stmt.close();
@@ -192,6 +194,8 @@ public class ProdutoDao {
             stmt.setLong(1, id );
             result = stmt.executeQuery();
             if(result.next()){
+               FornecedorModel fornecedor = fornecedorDao.selectOneFornecedor(result.getLong("cd_fornecedor"));
+               produtoModel.setFornecedorModel(fornecedor);
                produtoModel.setCd_produto(result.getLong("cd_produto"));
                produtoModel.setNm_produto(result.getString("nm_produto"));
                produtoModel.setQt_produto(result.getInt("qt_produto"));

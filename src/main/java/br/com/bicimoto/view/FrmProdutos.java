@@ -9,6 +9,7 @@ import br.com.bicimoto.dao.ProdutoDao;
 import br.com.bicimoto.model.FornecedorModel;
 import br.com.bicimoto.model.ProdutoModel;
 import br.com.bicimoto.util.ViewUtil;
+import java.awt.event.KeyEvent;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -72,7 +73,7 @@ public class FrmProdutos extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tblProduto = new javax.swing.JTable();
         jLabel14 = new javax.swing.JLabel();
-        txtPesquisa1 = new javax.swing.JTextField();
+        txtPesquisaCd = new javax.swing.JTextField();
         jPanel4 = new javax.swing.JPanel();
         btnSalvar = new javax.swing.JButton();
         btnNovo = new javax.swing.JButton();
@@ -410,16 +411,16 @@ public class FrmProdutos extends javax.swing.JFrame {
         jLabel14.setForeground(new java.awt.Color(0, 0, 0));
         jLabel14.setText("Código:");
 
-        txtPesquisa1.setBackground(new java.awt.Color(255, 255, 255));
-        txtPesquisa1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        txtPesquisa1.addActionListener(new java.awt.event.ActionListener() {
+        txtPesquisaCd.setBackground(new java.awt.Color(255, 255, 255));
+        txtPesquisaCd.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtPesquisaCd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtPesquisa1ActionPerformed(evt);
+                txtPesquisaCdActionPerformed(evt);
             }
         });
-        txtPesquisa1.addKeyListener(new java.awt.event.KeyAdapter() {
+        txtPesquisaCd.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
-                txtPesquisa1KeyPressed(evt);
+                txtPesquisaCdKeyPressed(evt);
             }
         });
 
@@ -440,7 +441,7 @@ public class FrmProdutos extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(jLabel14)
                         .addGap(18, 18, 18)
-                        .addComponent(txtPesquisa1, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE)
+                        .addComponent(txtPesquisaCd, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE)
                         .addGap(18, 18, 18)
                         .addComponent(btnPesquisar)
                         .addContainerGap(90, Short.MAX_VALUE))))
@@ -454,8 +455,8 @@ public class FrmProdutos extends javax.swing.JFrame {
                     .addGroup(jConsultaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel13)
                         .addComponent(jLabel14)
-                        .addComponent(btnPesquisar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(txtPesquisa1)))
+                        .addComponent(btnPesquisar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(txtPesquisaCd))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(14, 14, 14))
@@ -566,21 +567,27 @@ public class FrmProdutos extends javax.swing.JFrame {
     
     
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
-          if(txtId.getText().isEmpty()){
-             produtoModel = new ProdutoModel();
+          if(txtId.getText().trim().isEmpty()){
+            
+            if(!txtNome.getText().trim().isEmpty() && !txtVl_inicial.getText().trim().isEmpty() && !txtVl_final.getText().trim().isEmpty() && !txtQuantidade.getText().trim().isEmpty()){
+                produtoModel = new ProdutoModel();
          
-            produtoModel.setDs_produto(txtDescricao.getText());
-            produtoModel.setNm_produto(txtNome.getText());
-            produtoModel.setQt_produto(Integer.parseInt(txtQuantidade.getText()));
-            produtoModel.setVl_inicial(Float.parseFloat(txtVl_inicial.getText()));
-            produtoModel.setVl_final(Float.parseFloat(txtVl_final.getText()));
-            
-            FornecedorModel fornecedor = new FornecedorModel();
-            fornecedor = (FornecedorModel) boxFornecedor.getSelectedItem();
-            
-            produtoModel.setFornecedorModel(fornecedor);
+                produtoModel.setDs_produto(txtDescricao.getText());
+                produtoModel.setNm_produto(txtNome.getText());
+                produtoModel.setQt_produto(Integer.parseInt(txtQuantidade.getText()));
+                produtoModel.setVl_inicial(Float.parseFloat(txtVl_inicial.getText()));
+                produtoModel.setVl_final(Float.parseFloat(txtVl_final.getText()));
+                
+                FornecedorModel fornecedor = new FornecedorModel();
+                fornecedor = (FornecedorModel) boxFornecedor.getSelectedItem();
+                
+                produtoModel.setFornecedorModel(fornecedor);
+                produtoDao.insertProduto(produtoModel);
+            }else{
+                JOptionPane.showMessageDialog(null, "Preencha o nome, valor inicial, valor final e quantidade", "Campos vazios", 0);
+            }
           
-          produtoDao.insertProduto(produtoModel);
+          
           }else{
               editarDados();
           }
@@ -594,6 +601,7 @@ public class FrmProdutos extends javax.swing.JFrame {
             editarDados();
     }//GEN-LAST:event_btnEditarActionPerformed
     private void editarDados(){
+        if(!txtId.getText().trim().isEmpty()){
           produtoModel = new ProdutoModel();
           
           produtoModel.setCd_produto(Long.parseLong(txtId.getText()));          
@@ -606,11 +614,20 @@ public class FrmProdutos extends javax.swing.JFrame {
           fornecedorModel = new FornecedorModel();
           fornecedorModel = (FornecedorModel) boxFornecedor.getSelectedItem();
           
-        produtoDao.updateProduto(produtoModel);
+          produtoModel.setFornecedorModel(fornecedorModel);
+          
+          produtoDao.updateProduto(produtoModel);
+          }else{
+                JOptionPane.showMessageDialog(null, "Selecione um produto para editar", "Campos vazios", 0);
+            }
     }
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+            if(!txtId.getText().trim().isEmpty()){
             produtoDao.deleteProduto(Long.parseLong(txtId.getText()));
             viewUtil.limparDados(jCadastro);
+            }else{
+                JOptionPane.showMessageDialog(null, "Selecione um produto para excluir", "Campos vazios", 0);
+            }
     }//GEN-LAST:event_btnDeleteActionPerformed
    
     private void listarProduto(String nm_produto){
@@ -638,8 +655,33 @@ public class FrmProdutos extends javax.swing.JFrame {
             listarProduto("");
     }//GEN-LAST:event_formWindowActivated
 
+    private void pesquisaCodigo(){
+          
+                
+                ProdutoModel produto = produtoDao.selectProdutoId(Long.valueOf(txtPesquisaCd.getText()));
+                DefaultTableModel dados = (DefaultTableModel) tblProduto.getModel();
+                dados.setRowCount(0);
+                
+                if(produto.getFornecedorModel() != null){
+                    dados.addRow(new Object[]{
+                    produto.getCd_produto(),
+                    produto.getNm_produto(),
+                    produto.getFornecedorModel().getNm_fornecedor(),
+                    produto.getQt_produto(),
+                    produto.getString_atualizacao(),
+                    produto.getVl_inicial(),
+                    produto.getVl_final(),
+                    produto.getDs_produto()
+            
+                    
+                    });
+                }else{
+                    JOptionPane.showMessageDialog(null, "Produto não encontrado");
+                }
+    }
+    
     private void btnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarActionPerformed
-            listarProduto(txtPesquisa.getText());
+           listarProduto(txtPesquisa.getText());
     }//GEN-LAST:event_btnPesquisarActionPerformed
     private FornecedorModel f = new FornecedorModel();
     private void tblProdutoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblProdutoMouseClicked
@@ -684,19 +726,26 @@ public class FrmProdutos extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtDt_atualizacaoActionPerformed
 
-    private void txtPesquisa1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPesquisa1ActionPerformed
+    private void txtPesquisaCdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPesquisaCdActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtPesquisa1ActionPerformed
+    }//GEN-LAST:event_txtPesquisaCdActionPerformed
 
-    private void txtPesquisa1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPesquisa1KeyPressed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtPesquisa1KeyPressed
+    private void txtPesquisaCdKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPesquisaCdKeyPressed
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER && !txtPesquisaCd.getText().trim().isEmpty()){
+                pesquisaCodigo();
+            
+        }
+    }//GEN-LAST:event_txtPesquisaCdKeyPressed
 
     private void btnAdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarActionPerformed
-        int soma = Integer.parseInt(txtQuantidade.getText()) + Integer.parseInt(txtQuantidadeEntrada.getText());
-        txtQuantidade.setText(String.valueOf(soma)); 
-        produtoDao.adicionarEstoque(Integer.parseInt(txtQuantidade.getText()), Long.parseLong(txtId.getText()));
-        txtQuantidadeEntrada.setText("");
+        if(!txtQuantidadeEntrada.getText().trim().isEmpty()){
+            int soma = Integer.parseInt(txtQuantidade.getText()) + Integer.parseInt(txtQuantidadeEntrada.getText());
+            txtQuantidade.setText(String.valueOf(soma)); 
+            produtoDao.adicionarEstoque(Integer.parseInt(txtQuantidade.getText()), Long.parseLong(txtId.getText()));
+            txtQuantidadeEntrada.setText("");
+        }else{
+             JOptionPane.showMessageDialog(null, "Informe a quantidade", "Campos vazios", 0);
+        }
     }//GEN-LAST:event_btnAdicionarActionPerformed
 
     private void txtQuantidadeEntradaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtQuantidadeEntradaActionPerformed
@@ -806,7 +855,7 @@ public class FrmProdutos extends javax.swing.JFrame {
     private javax.swing.JTextField txtId;
     private javax.swing.JTextField txtNome;
     private javax.swing.JTextField txtPesquisa;
-    private javax.swing.JTextField txtPesquisa1;
+    private javax.swing.JTextField txtPesquisaCd;
     private javax.swing.JTextField txtQuantidade;
     private javax.swing.JTextField txtQuantidadeEntrada;
     private javax.swing.JTextField txtVl_final;

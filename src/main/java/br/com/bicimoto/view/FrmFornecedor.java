@@ -13,6 +13,7 @@ import br.com.bicimoto.util.Endereco;
 import br.com.bicimoto.util.ViewUtil;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -383,6 +384,9 @@ public class FrmFornecedor extends javax.swing.JFrame {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txtPesquisaKeyPressed(evt);
             }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtPesquisaKeyTyped(evt);
+            }
         });
 
         jLabel13.setBackground(new java.awt.Color(255, 255, 255));
@@ -411,6 +415,11 @@ public class FrmFornecedor extends javax.swing.JFrame {
         btnPesquisar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnPesquisar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/loupe.png"))); // NOI18N
         btnPesquisar.setText("Pesquisar");
+        btnPesquisar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPesquisarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jConsultaLayout = new javax.swing.GroupLayout(jConsulta);
         jConsulta.setLayout(jConsultaLayout);
@@ -551,19 +560,34 @@ public class FrmFornecedor extends javax.swing.JFrame {
     private final ViewUtil viewUtil = new ViewUtil();
     
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
-        fornecedor = new FornecedorModel();
+        if(!txtId.getText().trim().isEmpty()){
+            atualizaCliente();
+        }else{
+        try {
+            txtCnpj.getFormatter().stringToValue(txtCnpj.getText());
+            
+            fornecedor = new FornecedorModel();
 
-        fornecedor.setDs_bairro(txtBairro.getText());
-        fornecedor.setDs_cep(txtCep.getText());
-        fornecedor.setDs_cidade(txtCidade.getText());
-        fornecedor.setDs_email(txtEmail.getText());
-        fornecedor.setDs_endereco(txtEndereco.getText());
-        fornecedor.setDs_telefone(txtTelefone.getText());
-        fornecedor.setNm_fornecedor(txtNome.getText());
-        fornecedor.setDs_estado(boxEstado.getSelectedItem().toString());
-        fornecedor.setDs_cnpj(txtCnpj.getText());
+            if(!txtNome.getText().trim().isEmpty()){
+            fornecedor.setDs_bairro(txtBairro.getText());
+            fornecedor.setDs_cep(txtCep.getText());
+            fornecedor.setDs_cidade(txtCidade.getText());
+            fornecedor.setDs_email(txtEmail.getText());
+            fornecedor.setDs_endereco(txtEndereco.getText());
+            fornecedor.setDs_telefone(txtTelefone.getText());
+            fornecedor.setNm_fornecedor(txtNome.getText());
+            fornecedor.setDs_estado(boxEstado.getSelectedItem().toString());
+            fornecedor.setDs_cnpj(txtCnpj.getText());
         
-        fornecedorDao.insertFornecedor(fornecedor);
+            fornecedorDao.insertFornecedor(fornecedor);
+            }else{
+                JOptionPane.showMessageDialog(null, "Preencha o nome e o CNPJ", "Campos vazios", 0);
+            }
+        } catch (ParseException e) {
+            JOptionPane.showMessageDialog(null, "Preencha o nome e o CNPJ", "Campos vazios", 0);
+        }
+        }
+        
 
     }//GEN-LAST:event_btnSalvarActionPerformed
 
@@ -571,7 +595,8 @@ public class FrmFornecedor extends javax.swing.JFrame {
          viewUtil.limparDados(jCadastro);
     }//GEN-LAST:event_btnNovoActionPerformed
 
-    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
+    public void atualizaCliente(){
+        if(!txtId.getText().trim().isEmpty()){
         fornecedor = new FornecedorModel();
 
         fornecedor.setCd_fornecedor(Long.parseLong(txtId.getText()));
@@ -586,11 +611,22 @@ public class FrmFornecedor extends javax.swing.JFrame {
         fornecedor.setDs_cnpj(txtCnpj.getText());
         
         fornecedorDao.updateFornecedor(fornecedor);
+        }else{
+            JOptionPane.showMessageDialog(null, "Selecione um fornecedor para editar", "Campos vazios", 0);
+        }
+    }
+    
+    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
+        atualizaCliente();
     }//GEN-LAST:event_btnEditarActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        if(!txtId.getText().trim().isEmpty()){
         fornecedorDao.deleteFornecedor(Long.parseLong(txtId.getText()));
         viewUtil.limparDados(jCadastro);
+        }else{
+            JOptionPane.showMessageDialog(null, "Selecione um fornecedor para excluir", "Campos vazios", 0);
+        }
     }//GEN-LAST:event_btnDeleteActionPerformed
          
     private void listarFornecedor(String nome){
@@ -629,7 +665,7 @@ public class FrmFornecedor extends javax.swing.JFrame {
     }//GEN-LAST:event_txtPesquisaActionPerformed
 
     private void txtPesquisaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPesquisaKeyPressed
-        
+
     }//GEN-LAST:event_txtPesquisaKeyPressed
 
     private void tblFornecedorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblFornecedorMouseClicked
@@ -710,6 +746,16 @@ public class FrmFornecedor extends javax.swing.JFrame {
         frmMenu.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnVoltarActionPerformed
+
+    private void txtPesquisaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPesquisaKeyTyped
+
+          listarFornecedor(txtPesquisa.getText());
+  
+    }//GEN-LAST:event_txtPesquisaKeyTyped
+
+    private void btnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarActionPerformed
+        listarFornecedor(txtPesquisa.getText());
+    }//GEN-LAST:event_btnPesquisarActionPerformed
   
     /**
      * @param args the command line arguments

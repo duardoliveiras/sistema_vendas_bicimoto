@@ -76,6 +76,11 @@ public class FrmPagamento extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Pagamento");
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowActivated(java.awt.event.WindowEvent evt) {
+                formWindowActivated(evt);
+            }
+        });
 
         jPanel1.setBackground(new java.awt.Color(0, 153, 51));
 
@@ -311,9 +316,11 @@ public class FrmPagamento extends javax.swing.JFrame {
     
     private void btnFinalizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFinalizarActionPerformed
             
-            String pg1 = (dinheiro > 0)? "Dinheiro " : "";
-            String pg2 = (cartao > 0)? "Cartão " : "";
-            String pg3 = (pix > 0)? "Pix " : "";
+            String pg1 = (dinheiro > 0)? "Dinheiro: " + txtDinheiro.getText()+"R$" : "";
+            String pg2 = (cartao > 0)? " Cartão: " + txtCartao.getText()+"R$" : "";
+            String pg3 = (pix > 0)? " Pix: " + txtPix.getText()+"R$" : "";
+            
+            
         
             venda = new VendasModel();
             venda.setCliente(this.cliente);
@@ -371,12 +378,13 @@ public class FrmPagamento extends javax.swing.JFrame {
     
     private void txtDinheiroKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDinheiroKeyPressed
          if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+            txtCartao.selectAll();
             txtCartao.requestFocus();
         }
     }//GEN-LAST:event_txtDinheiroKeyPressed
 
     private void txtPixKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPixKeyPressed
-
+        
         if(evt.getKeyCode() == KeyEvent.VK_ENTER){
             calculaTroco();
             txtTroco.setText(String.valueOf(troco));
@@ -386,10 +394,16 @@ public class FrmPagamento extends javax.swing.JFrame {
     }//GEN-LAST:event_txtPixKeyPressed
 
     private void txtCartaoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCartaoKeyPressed
+
         if(evt.getKeyCode() == KeyEvent.VK_ENTER){
             txtPix.requestFocus();
+            txtPix.selectAll();
         }
     }//GEN-LAST:event_txtCartaoKeyPressed
+
+    private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
+        txtDinheiro.selectAll();
+    }//GEN-LAST:event_formWindowActivated
 
     /**
      * @param args the command line arguments
