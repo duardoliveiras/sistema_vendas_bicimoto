@@ -1,58 +1,67 @@
 create user eduardo with password '123456';
 grant all privileges on database bicimoto to eduardo;
+ALTER ROLE eduardo SUPERUSER CREATEDB CREATEROLE INHERIT LOGIN REPLICATION NOBYPASSRLS;
 
 CREATE TABLE cliente (
-    cd_cliente SERIAL PRIMARY KEY,
-    nm_cliente VARCHAR(100) NOT NULL,
-    ds_telefone VARCHAR(11) NOT NULL,
-    dt_nascimento DATE NOT NULL,
-    ds_cpf VARCHAR(11) NOT NULL,
-    ds_email VARCHAR(100),
-    ds_cep VARCHAR(8),
-    ds_endereco VARCHAR(100) NOT NULL,
-    ds_cidade VARCHAR(100) NOT NULL,
-    ds_bairro VARCHAR(100) NOT NULL,
-    ds_estado VARCHAR(2) NOT NULL
+	cd_cliente serial4 NOT NULL,
+	nm_cliente varchar(100) NOT NULL,
+	ds_telefone varchar NOT NULL,
+	dt_nascimento date NULL,
+	ds_cpf varchar NOT NULL,
+	ds_email varchar(100) NULL,
+	ds_cep varchar NULL,
+	ds_endereco varchar(100) NOT NULL,
+	ds_cidade varchar(100) NOT NULL,
+	ds_bairro varchar(100) NOT NULL,
+	ds_estado varchar(2) NOT NULL,
+	CONSTRAINT cliente_pkey PRIMARY KEY (cd_cliente)
 );
 
 CREATE TABLE venda (
-    cd_venda SERIAL PRIMARY KEY,
-    cd_cliente INT NOT NULL,
-    dt_venda DATE NOT NULL,
-    vl_total DECIMAL(10,2) NOT NULL,
-    FOREIGN KEY (cd_cliente) REFERENCES cliente(cd_cliente)
+	cd_venda serial4 NOT NULL,
+	cd_cliente int4 NOT NULL,
+	dt_venda date NOT NULL,
+	vl_total numeric(10, 2) NOT NULL,
+	ds_pagamento varchar(50) NULL,
+	ds_observacao varchar(255) NULL,
+	CONSTRAINT venda_pkey PRIMARY KEY (cd_venda),
+	CONSTRAINT venda_cd_cliente_fkey FOREIGN KEY (cd_cliente) REFERENCES cliente(cd_cliente)
 );
 
 CREATE TABLE fornecedor (
-    cd_fornecedor SERIAL PRIMARY KEY,
-    nm_fornecedor VARCHAR(100) NOT NULL,
-    ds_telefone VARCHAR(11) NOT NULL,
-    ds_endereco VARCHAR(100),
-    ds_cnpj VARCHAR(14) NOT NULL,
-    ds_email VARCHAR(100),
-    ds_cep VARCHAR(8),
-    ds_cidade VARCHAR(100),
-    ds_estado VARCHAR(2),
-    ds_bairro VARCHAR(100)
+	cd_fornecedor serial4 NOT NULL,
+	nm_fornecedor varchar(100) NOT NULL,
+	ds_telefone varchar NOT NULL,
+	ds_endereco varchar(100) NULL,
+	ds_cnpj varchar NOT NULL,
+	ds_email varchar(100) NULL,
+	ds_cep varchar NULL,
+	ds_cidade varchar(100) NULL,
+	ds_estado varchar NULL,
+	ds_bairro varchar(100) NULL,
+	CONSTRAINT fornecedor_pkey PRIMARY KEY (cd_fornecedor)
 );
 
 CREATE TABLE produto (
-    cd_produto SERIAL PRIMARY KEY,
-    nm_produto VARCHAR(100) NOT NULL,
-    ds_produto VARCHAR(100) NOT NULL,
-    vl_inicial DECIMAL(10,2) NOT NULL,
-    vl_final DECIMAL(10,2) NOT NULL,
-    qt_produto INT NOT NULL,
-    cd_fornecedor INT NOT NULL,
-    FOREIGN KEY (cd_fornecedor) REFERENCES fornecedor(cd_fornecedor)
+    cd_produto serial4 NOT NULL,
+	nm_produto varchar(100) NOT NULL,
+	ds_produto varchar(100) NOT NULL,
+	vl_inicial numeric(10, 2) NOT NULL,
+	vl_final numeric(10, 2) NOT NULL,
+	qt_produto int4 NOT NULL,
+	cd_fornecedor int4 NOT NULL,
+	dt_atualizacao date NULL,
+	CONSTRAINT produto_pkey PRIMARY KEY (cd_produto),
+	CONSTRAINT produto_cd_fornecedor_fkey FOREIGN KEY (cd_fornecedor) REFERENCES fornecedor(cd_fornecedor)
 );
 
 CREATE TABLE venda_item (
-    cd_item SERIAL PRIMARY KEY,
-    qt_produto INT NOT NULL,
-    vl_subtotal DECIMAL(10,2) NOT NULL,
-    cd_produto INT NOT NULL,
-    cd_venda INT NOT NULL,
-    FOREIGN KEY (cd_produto) REFERENCES produto(cd_produto),
-    FOREIGN KEY (cd_venda) REFERENCES venda(cd_venda)
+	cd_item serial4 NOT NULL,
+	qt_produto int4 NOT NULL,
+	vl_subtotal numeric(10, 2) NOT NULL,
+	cd_produto int4 NOT NULL,
+	cd_venda int4 NOT NULL,
+	CONSTRAINT venda_item_pkey PRIMARY KEY (cd_item),
+	CONSTRAINT venda_item_cd_produto_fkey FOREIGN KEY (cd_produto) REFERENCES produto(cd_produto),
+	CONSTRAINT venda_item_cd_venda_fkey FOREIGN KEY (cd_venda) REFERENCES venda(cd_venda)
 );
