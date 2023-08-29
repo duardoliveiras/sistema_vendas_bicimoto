@@ -254,7 +254,7 @@ public class FrmFornecedor extends javax.swing.JFrame {
 
         boxEstado.setBackground(new java.awt.Color(255, 255, 255));
         boxEstado.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        boxEstado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "MT", "GO", "MG" }));
+        boxEstado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "AC", "AL", "AP", "AM", "BA", "CE", "DF", "ES", "GO", "MA", "MT", "MS", "MG", "PA", "PB", "PR", "PE", "PI", "RJ", "RN", "RS", "RO", "RR", "SC", "SP", "SE", "TO" }));
         boxEstado.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 boxEstadoActionPerformed(evt);
