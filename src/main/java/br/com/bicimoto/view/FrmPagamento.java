@@ -315,7 +315,7 @@ public class FrmPagamento extends javax.swing.JFrame {
   
     
     private void btnFinalizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFinalizarActionPerformed
-            
+            calculaTroco();
             String pg1 = (dinheiro > 0)? "Dinheiro: " + txtDinheiro.getText()+"R$" : "";
             String pg2 = (cartao > 0)? " Cartão: " + txtCartao.getText()+"R$" : "";
             String pg3 = (pix > 0)? " Pix: " + txtPix.getText()+"R$" : "";

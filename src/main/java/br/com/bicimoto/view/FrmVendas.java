@@ -83,6 +83,7 @@ public class FrmVendas extends javax.swing.JFrame {
         txtDt_inicial = new javax.swing.JFormattedTextField();
         txtDt_final = new javax.swing.JFormattedTextField();
         btnPesquisarCliente1 = new javax.swing.JButton();
+        btnCRemover = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         tblCVendas = new javax.swing.JTable();
@@ -543,6 +544,16 @@ public class FrmVendas extends javax.swing.JFrame {
             }
         });
 
+        btnCRemover.setBackground(new java.awt.Color(255, 255, 255));
+        btnCRemover.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnCRemover.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/cancel.png"))); // NOI18N
+        btnCRemover.setText("REMOVER");
+        btnCRemover.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCRemoverActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
@@ -558,7 +569,9 @@ public class FrmVendas extends javax.swing.JFrame {
                 .addComponent(txtDt_final, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(38, 38, 38)
                 .addComponent(btnPesquisarCliente1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnCRemover)
+                .addGap(14, 14, 14))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -569,7 +582,8 @@ public class FrmVendas extends javax.swing.JFrame {
                     .addComponent(txtDt_final, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4)
                     .addComponent(txtDt_inicial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3))
+                    .addComponent(jLabel3)
+                    .addComponent(btnCRemover))
                 .addContainerGap(7, Short.MAX_VALUE))
         );
 
@@ -834,13 +848,15 @@ public class FrmVendas extends javax.swing.JFrame {
     }//GEN-LAST:event_txtTotalActionPerformed
 
     private void btnRemoverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoverActionPerformed
+    
          DefaultTableModel dtItens = (DefaultTableModel) tblItens.getModel();
          dtItens.removeRow(tblItens.getSelectedRow());
-         float totalAtualizado = 0;
+         total = 0;
          for(int i = 0 ; i < dtItens.getRowCount(); i++){
-             totalAtualizado += Float.parseFloat(dtItens.getValueAt(i, 4).toString());
+             total += Float.parseFloat(dtItens.getValueAt(i, 4).toString());
          }
-         txtTotal.setText( String.valueOf(df.format(totalAtualizado)));
+         
+         txtTotal.setText( String.valueOf(df.format(total)));
          
     }//GEN-LAST:event_btnRemoverActionPerformed
 
@@ -876,12 +892,14 @@ public class FrmVendas extends javax.swing.JFrame {
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
         txtDtVenda.setText(formatter.format(vendasDao.getSysdate()));
     }//GEN-LAST:event_formWindowActivated
-
-    private void btnPesquisarCliente1btnPesquisarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarCliente1btnPesquisarClienteActionPerformed
+    
+    
+    public void listarVendas(){
+        DefaultTableModel dadosItens = (DefaultTableModel) tblCItens.getModel();
         DefaultTableModel dadosVenda = (DefaultTableModel) tblCVendas.getModel();
         
         dadosVenda.setNumRows(0);
-
+        dadosItens.setNumRows(0);
         cTotal = 0;
         try {
             List<VendasModel> lista = vendasDao.selectTodasVendas( txtDt_inicial.getText() , txtDt_final.getText());
@@ -903,7 +921,10 @@ public class FrmVendas extends javax.swing.JFrame {
         } catch (ParseException e) {
            JOptionPane.showMessageDialog(null, "Preencha a data inicial e final", "Campos vazios", 0);
         }
+    }
+    private void btnPesquisarCliente1btnPesquisarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarCliente1btnPesquisarClienteActionPerformed
         
+        listarVendas();
         
     }//GEN-LAST:event_btnPesquisarCliente1btnPesquisarClienteActionPerformed
     private void geraItens(){
@@ -944,6 +965,12 @@ public class FrmVendas extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_btnVoltarActionPerformed
 
+    private void btnCRemoverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCRemoverActionPerformed
+       Long cd_venda = Long.parseLong(tblCVendas.getValueAt(tblCVendas.getSelectedRow(), 0).toString());
+       vendasDao.deletarItens(cd_venda);
+       listarVendas();
+    }//GEN-LAST:event_btnCRemoverActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -982,6 +1009,7 @@ public class FrmVendas extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdicionar;
+    private javax.swing.JButton btnCRemover;
     private javax.swing.JButton btnPagamento;
     private javax.swing.JButton btnPesquisarCliente;
     private javax.swing.JButton btnPesquisarCliente1;

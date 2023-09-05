@@ -128,6 +128,55 @@ public class VendasDao {
         
         return lista;
     }
+    
+    public void deletarItens(Long cd_venda){
+        try(Connection connDb = ConnectionDatabase.getConnection()){
+            
+            String sql = "delete from venda_item where cd_venda=?";
+            
+            
+            PreparedStatement stmt = connDb.prepareStatement(sql);
+            stmt.setLong(1, cd_venda);
+            
+            int rows = stmt.executeUpdate();
+            stmt.close();
+            connDb.close();
+            if(rows > 0){
+                deletarVenda(cd_venda);
+            }else{
+                JOptionPane.showMessageDialog(null, "Erro ao deletar itens", "Erro", 0);
+            }
+            
+            
+        }catch(SQLException e){
+            JOptionPane.showMessageDialog(null, e);
+        }
+    }
+    
+    public void deletarVenda(Long cd_venda){
+        
+        try(Connection connDb = ConnectionDatabase.getConnection()){
+            
+            String sql = "delete from venda where cd_venda=?";
+            
+            
+            PreparedStatement stmt = connDb.prepareStatement(sql);
+            stmt.setLong(1, cd_venda);
+            
+            int rows = stmt.executeUpdate();
+            stmt.close();
+            if(rows > 0){
+                JOptionPane.showMessageDialog(null, "Deletado com sucesso");
+            }else{
+                JOptionPane.showMessageDialog(null, "Erro ao deletar itens", "Erro", 0);
+            }
+            
+            
+        }catch(SQLException e){
+            JOptionPane.showMessageDialog(null, e);
+        }
+        
+    }
             
      
     
