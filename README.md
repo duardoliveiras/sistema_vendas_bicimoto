@@ -6,15 +6,11 @@ A interface do sistema foi projetada com a tecnologia Java Swing para garantir u
 
 ### Começando
 
-Para executar o projeto você precisa instalar o banco de dados Postgresql:
+Para executar o projeto você precisa instalar:
 
 [PostgreSQL: Downloads](https://www.postgresql.org/download/)
 
-Java:
-
 [Java](https://www.java.com/en/download/)
-
-Java JDK:
 
 [Java JDK](https://www.oracle.com/java/technologies/downloads/)
 
