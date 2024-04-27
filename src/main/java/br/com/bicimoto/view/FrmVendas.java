@@ -57,6 +57,8 @@ public class FrmVendas extends javax.swing.JFrame {
         txtDtVenda = new javax.swing.JFormattedTextField();
         jLabel18 = new javax.swing.JLabel();
         btnPesquisarCliente = new javax.swing.JButton();
+        avista = new javax.swing.JCheckBox();
+        prazo = new javax.swing.JCheckBox();
         jPanel3 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         txtCdProduto = new javax.swing.JTextField();
@@ -208,31 +210,54 @@ public class FrmVendas extends javax.swing.JFrame {
             }
         });
 
+        avista.setText("À vista");
+        avista.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                avistaActionPerformed(evt);
+            }
+        });
+
+        prazo.setText("Prazo");
+        prazo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                prazoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel17)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(txtCpf, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(avista)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel17)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(txtCpf, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(txtDtVenda, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
-                .addComponent(jLabel18)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(txtDtVenda, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel10)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(txtNomeCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 310, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(12, 12, 12)
-                .addComponent(btnPesquisarCliente)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel10)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(txtNomeCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 310, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(12, 12, 12)
+                        .addComponent(btnPesquisarCliente))
+                    .addComponent(prazo))
+                .addContainerGap(18, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(avista)
+                    .addComponent(prazo))
+                .addGap(12, 12, 12)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel17)
                     .addComponent(txtCpf)
@@ -873,19 +898,21 @@ public class FrmVendas extends javax.swing.JFrame {
     private ProdutoDao produtoDao = new ProdutoDao();
     
     private void btnPagamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPagamentoActionPerformed
+        if(avista.isSelected()){
+            if(tblItens.getRowCount() > 0 && !txtNomeCliente.getText().trim().isEmpty()){
+                FrmPagamento frmPagamento = new FrmPagamento();
 
-        if(tblItens.getRowCount() > 0 && !txtNomeCliente.getText().trim().isEmpty()){
-            FrmPagamento frmPagamento = new FrmPagamento();
+                frmPagamento.txtTotal.setText(txtTotal.getText());
 
-            frmPagamento.txtTotal.setText(txtTotal.getText());
-
-            frmPagamento.cliente = this.cliente;
-            frmPagamento.itens = this.itens;
-            frmPagamento.setVisible(true);
-            this.dispose();
-        }else{
-            JOptionPane.showMessageDialog(null, "Adicione o cliente e os produtos", "Campos vazios", 0);
+                frmPagamento.cliente = this.cliente;
+                frmPagamento.itens = this.itens;
+                frmPagamento.setVisible(true);
+                this.dispose();
+            }else{
+                JOptionPane.showMessageDialog(null, "Adicione o cliente e os produtos", "Campos vazios", 0);
+            }
         }
+
     }//GEN-LAST:event_btnPagamentoActionPerformed
 
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
@@ -971,6 +998,18 @@ public class FrmVendas extends javax.swing.JFrame {
        listarVendas();
     }//GEN-LAST:event_btnCRemoverActionPerformed
 
+    private void avistaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_avistaActionPerformed
+        if(prazo.isSelected()){
+            prazo.setSelected(false);
+        }
+    }//GEN-LAST:event_avistaActionPerformed
+
+    private void prazoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_prazoActionPerformed
+        if(avista.isSelected()){
+            avista.setSelected(false);
+        }
+    }//GEN-LAST:event_prazoActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1008,6 +1047,7 @@ public class FrmVendas extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JCheckBox avista;
     private javax.swing.JButton btnAdicionar;
     private javax.swing.JButton btnCRemover;
     private javax.swing.JButton btnPagamento;
@@ -1044,6 +1084,7 @@ public class FrmVendas extends javax.swing.JFrame {
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JPanel jVendas;
     private javax.swing.JPanel jVender;
+    private javax.swing.JCheckBox prazo;
     private javax.swing.JTable tblCItens;
     private javax.swing.JTable tblCVendas;
     private javax.swing.JTable tblItens;

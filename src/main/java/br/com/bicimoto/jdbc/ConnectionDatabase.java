@@ -20,9 +20,9 @@ O objeto dataSource armazena os dados do banco que sao definidos por constantes 
 */
 public class ConnectionDatabase {
     
-        private static final String URL = "jdbc:postgresql://127.0.0.1:5432/bicimoto";
+        private static final String URL = "jdbc:postgresql://localhost:5432/bicimoto";
         private static final String USER = "eduardo";
-        private static final String PASSWORD = "123456";
+        private static final String PASSWORD = "post123!bicimoto";
         private static final DataSource dataSource;
         
         static{
