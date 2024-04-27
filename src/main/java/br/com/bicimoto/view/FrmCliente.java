@@ -71,6 +71,7 @@ public class FrmCliente extends javax.swing.JFrame {
         txtCpf = new javax.swing.JFormattedTextField();
         txtDt_nascimento = new javax.swing.JFormattedTextField();
         jLabel12 = new javax.swing.JLabel();
+        btnDelete = new javax.swing.JButton();
         jConsulta = new javax.swing.JPanel();
         jLabel13 = new javax.swing.JLabel();
         txtPesquisa = new javax.swing.JTextField();
@@ -81,7 +82,7 @@ public class FrmCliente extends javax.swing.JFrame {
         btnSalvar = new javax.swing.JButton();
         btnNovo = new javax.swing.JButton();
         btnEditar = new javax.swing.JButton();
-        btnDelete = new javax.swing.JButton();
+        btnDelete1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Clientes");
@@ -302,27 +303,23 @@ public class FrmCliente extends javax.swing.JFrame {
         jLabel12.setForeground(new java.awt.Color(0, 0, 0));
         jLabel12.setText("Data de Nascimento:");
 
+        btnDelete.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnDelete.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/taxa.png"))); // NOI18N
+        btnDelete.setText("Dívidas");
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jCadastroLayout = new javax.swing.GroupLayout(jCadastro);
         jCadastro.setLayout(jCadastroLayout);
         jCadastroLayout.setHorizontalGroup(
             jCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jCadastroLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(jCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jCadastroLayout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addGap(18, 18, 18)
-                        .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel11)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtCpf, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel12)
-                        .addGap(18, 18, 18)
-                        .addComponent(txtDt_nascimento, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 430, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jCadastroLayout.createSequentialGroup()
                         .addGroup(jCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel8)
                             .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -352,7 +349,23 @@ public class FrmCliente extends javax.swing.JFrame {
                             .addGroup(jCadastroLayout.createSequentialGroup()
                                 .addComponent(boxEstado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(txtNome))))
+                            .addComponent(txtNome)))
+                    .addGroup(jCadastroLayout.createSequentialGroup()
+                        .addGroup(jCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jCadastroLayout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addGap(18, 18, 18)
+                                .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel11)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(txtCpf, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel12)
+                                .addGap(18, 18, 18)
+                                .addComponent(txtDt_nascimento, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 430, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jCadastroLayout.setVerticalGroup(
@@ -392,7 +405,9 @@ public class FrmCliente extends javax.swing.JFrame {
                 .addGroup(jCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(boxEstado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel10))
-                .addGap(89, 89, 89))
+                .addGap(36, 36, 36)
+                .addComponent(btnDelete)
+                .addGap(16, 16, 16))
         );
 
         paneCadastro.addTab("Cadastrar/Editar", jCadastro);
@@ -505,12 +520,12 @@ public class FrmCliente extends javax.swing.JFrame {
             }
         });
 
-        btnDelete.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btnDelete.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/delete.png"))); // NOI18N
-        btnDelete.setText("EXCLUIR");
-        btnDelete.addActionListener(new java.awt.event.ActionListener() {
+        btnDelete1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnDelete1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/delete.png"))); // NOI18N
+        btnDelete1.setText("EXCLUIR");
+        btnDelete1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnDeleteActionPerformed(evt);
+                btnDelete1ActionPerformed(evt);
             }
         });
 
@@ -526,7 +541,7 @@ public class FrmCliente extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnEditar)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnDelete)
+                .addComponent(btnDelete1)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
@@ -537,8 +552,8 @@ public class FrmCliente extends javax.swing.JFrame {
                     .addComponent(btnNovo)
                     .addComponent(btnSalvar)
                     .addComponent(btnEditar)
-                    .addComponent(btnDelete))
-                .addContainerGap(26, Short.MAX_VALUE))
+                    .addComponent(btnDelete1))
+                .addContainerGap(27, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -813,6 +828,10 @@ public class FrmCliente extends javax.swing.JFrame {
        this.dispose();
     }//GEN-LAST:event_btnVoltarActionPerformed
 
+    private void btnDelete1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDelete1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnDelete1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -857,6 +876,7 @@ public class FrmCliente extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> boxEstado;
     private javax.swing.JButton btnDelete;
+    private javax.swing.JButton btnDelete1;
     private javax.swing.JButton btnEditar;
     private javax.swing.JButton btnNovo;
     private javax.swing.JButton btnPesquisar;

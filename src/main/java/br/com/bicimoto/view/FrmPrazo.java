@@ -13,17 +13,21 @@ import javax.swing.JRadioButton;
  * @author G15
  */
 public class FrmPrazo extends javax.swing.JFrame {
-
+    float entrada = 0;
     /**
      * Creates new form FrmPrazo
      */
     public FrmPrazo() {
         initComponents();
         
+        
         opcaoGroup.add(parcelado);
         opcaoGroup.add(opcao15Dias);
         opcaoGroup.add(opcao30Dias);
         opcaoGroup.add(opcao45Dias);
+        
+        txtEntrada.setText(String.valueOf(entrada));
+        txtEntrada.selectAll();
         
         ActionListener radioListener = new ActionListener(){
             @Override
@@ -55,7 +59,7 @@ public class FrmPrazo extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
-        txtDinheiro = new javax.swing.JTextField();
+        txtEntrada = new javax.swing.JTextField();
         jPanel14 = new javax.swing.JPanel();
         opcao30Dias = new javax.swing.JRadioButton();
         opcao45Dias = new javax.swing.JRadioButton();
@@ -63,6 +67,8 @@ public class FrmPrazo extends javax.swing.JFrame {
         parcelado = new javax.swing.JRadioButton();
         jLabel3 = new javax.swing.JLabel();
         qtdParcela = new javax.swing.JSpinner();
+        txtTotal = new javax.swing.JTextField();
+        jLabel9 = new javax.swing.JLabel();
         jPanel13 = new javax.swing.JPanel();
         btnFinalizar10 = new javax.swing.JButton();
 
@@ -97,15 +103,15 @@ public class FrmPrazo extends javax.swing.JFrame {
         jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel7.setText("ENTRADA:");
 
-        txtDinheiro.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        txtDinheiro.addActionListener(new java.awt.event.ActionListener() {
+        txtEntrada.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        txtEntrada.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtDinheiroActionPerformed(evt);
+                txtEntradaActionPerformed(evt);
             }
         });
-        txtDinheiro.addKeyListener(new java.awt.event.KeyAdapter() {
+        txtEntrada.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
-                txtDinheiroKeyPressed(evt);
+                txtEntradaKeyPressed(evt);
             }
         });
 
@@ -172,17 +178,34 @@ public class FrmPrazo extends javax.swing.JFrame {
                 .addContainerGap(51, Short.MAX_VALUE))
         );
 
+        txtTotal.setEditable(false);
+        txtTotal.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        txtTotal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtTotalActionPerformed(evt);
+            }
+        });
+
+        jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel9.setText("TOTAL:");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(7, 7, 7)
-                .addComponent(jLabel7)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(7, 7, 7)
+                        .addComponent(jLabel7))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel9)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(txtDinheiro))
+                    .addComponent(txtEntrada)
+                    .addComponent(txtTotal))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -190,11 +213,15 @@ public class FrmPrazo extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtDinheiro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel7))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel9))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
                 .addComponent(jPanel14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(15, Short.MAX_VALUE))
+                .addGap(43, 43, 43))
         );
 
         jPanel13.setBackground(new java.awt.Color(255, 255, 255));
@@ -241,19 +268,20 @@ public class FrmPrazo extends javax.swing.JFrame {
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtDinheiroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDinheiroActionPerformed
+    private void txtEntradaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEntradaActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtDinheiroActionPerformed
+    }//GEN-LAST:event_txtEntradaActionPerformed
 
-    private void txtDinheiroKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDinheiroKeyPressed
+    private void txtEntradaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtEntradaKeyPressed
 
-    }//GEN-LAST:event_txtDinheiroKeyPressed
+    }//GEN-LAST:event_txtEntradaKeyPressed
 
     private void btnFinalizar10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFinalizar10ActionPerformed
       
@@ -268,6 +296,10 @@ public class FrmPrazo extends javax.swing.JFrame {
 
   
     }//GEN-LAST:event_parceladoActionPerformed
+
+    private void txtTotalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTotalActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtTotalActionPerformed
 
     /**
      * @param args the command line arguments
@@ -314,6 +346,7 @@ public class FrmPrazo extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
@@ -334,6 +367,7 @@ public class FrmPrazo extends javax.swing.JFrame {
     private javax.swing.ButtonGroup opcaoGroup;
     private javax.swing.JRadioButton parcelado;
     private javax.swing.JSpinner qtdParcela;
-    private javax.swing.JTextField txtDinheiro;
+    private javax.swing.JTextField txtEntrada;
+    public javax.swing.JTextField txtTotal;
     // End of variables declaration//GEN-END:variables
 }

@@ -33,6 +33,7 @@ public class FrmVendas extends javax.swing.JFrame {
      */
     public FrmVendas() {
         initComponents();
+        avista.setSelected(true);
     }
 
     /**
@@ -210,6 +211,7 @@ public class FrmVendas extends javax.swing.JFrame {
             }
         });
 
+        avista.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         avista.setText("À vista");
         avista.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -217,6 +219,7 @@ public class FrmVendas extends javax.swing.JFrame {
             }
         });
 
+        prazo.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         prazo.setText("Prazo");
         prazo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -405,7 +408,7 @@ public class FrmVendas extends javax.swing.JFrame {
                     .addComponent(txtQuantidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(41, 41, 41)
                 .addComponent(btnAdicionar, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(122, Short.MAX_VALUE))
         );
 
         jPanel8.setBackground(new java.awt.Color(255, 255, 255));
@@ -434,8 +437,8 @@ public class FrmVendas extends javax.swing.JFrame {
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel8Layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 288, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 12, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addGap(12, 12, 12))
         );
 
         jPanel7.setBackground(new java.awt.Color(255, 255, 255));
@@ -524,7 +527,7 @@ public class FrmVendas extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jVenderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jVenderLayout.createSequentialGroup()
-                        .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -911,6 +914,12 @@ public class FrmVendas extends javax.swing.JFrame {
             }else{
                 JOptionPane.showMessageDialog(null, "Adicione o cliente e os produtos", "Campos vazios", 0);
             }
+        }else if(prazo.isSelected()){
+            FrmPrazo frmPrazo = new FrmPrazo();
+            frmPrazo.txtTotal.setText(txtTotal.getText());
+            frmPrazo.setVisible(true);
+            this.dispose();
+            
         }
 
     }//GEN-LAST:event_btnPagamentoActionPerformed
