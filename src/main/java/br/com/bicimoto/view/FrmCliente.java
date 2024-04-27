@@ -71,7 +71,7 @@ public class FrmCliente extends javax.swing.JFrame {
         txtCpf = new javax.swing.JFormattedTextField();
         txtDt_nascimento = new javax.swing.JFormattedTextField();
         jLabel12 = new javax.swing.JLabel();
-        btnDelete = new javax.swing.JButton();
+        btnDividas = new javax.swing.JButton();
         jConsulta = new javax.swing.JPanel();
         jLabel13 = new javax.swing.JLabel();
         txtPesquisa = new javax.swing.JTextField();
@@ -303,12 +303,12 @@ public class FrmCliente extends javax.swing.JFrame {
         jLabel12.setForeground(new java.awt.Color(0, 0, 0));
         jLabel12.setText("Data de Nascimento:");
 
-        btnDelete.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btnDelete.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/taxa.png"))); // NOI18N
-        btnDelete.setText("Dívidas");
-        btnDelete.addActionListener(new java.awt.event.ActionListener() {
+        btnDividas.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnDividas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/taxa.png"))); // NOI18N
+        btnDividas.setText("Dívidas");
+        btnDividas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnDeleteActionPerformed(evt);
+                btnDividasActionPerformed(evt);
             }
         });
 
@@ -364,7 +364,7 @@ public class FrmCliente extends javax.swing.JFrame {
                                 .addComponent(jLabel12)
                                 .addGap(18, 18, 18)
                                 .addComponent(txtDt_nascimento, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(btnDividas, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 430, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -406,7 +406,7 @@ public class FrmCliente extends javax.swing.JFrame {
                     .addComponent(boxEstado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel10))
                 .addGap(36, 36, 36)
-                .addComponent(btnDelete)
+                .addComponent(btnDividas)
                 .addGap(16, 16, 16))
         );
 
@@ -700,14 +700,11 @@ public class FrmCliente extends javax.swing.JFrame {
         atualizaCliente();
     }//GEN-LAST:event_btnEditarActionPerformed
 
-    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-        if(!txtId.getText().trim().isEmpty()){
-        clienteDao.deleteCliente(Long.parseLong(txtId.getText()));
-        viewModel.limparDados(jCadastro);
-        }else{
-            JOptionPane.showMessageDialog(null, "Selecione um cliente para excluir", "Campos vazios", 0);
-        }        
-    }//GEN-LAST:event_btnDeleteActionPerformed
+    private void btnDividasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDividasActionPerformed
+        FrmDividas frmDividas = new FrmDividas();
+        frmDividas.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnDividasActionPerformed
 
     private void txtDt_nascimentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDt_nascimentoActionPerformed
         // TODO add your handling code here:
@@ -875,8 +872,8 @@ public class FrmCliente extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> boxEstado;
-    private javax.swing.JButton btnDelete;
     private javax.swing.JButton btnDelete1;
+    private javax.swing.JButton btnDividas;
     private javax.swing.JButton btnEditar;
     private javax.swing.JButton btnNovo;
     private javax.swing.JButton btnPesquisar;
