@@ -17,6 +17,7 @@ CREATE TABLE cliente (
 	CONSTRAINT cliente_pkey PRIMARY KEY (cd_cliente)
 );
 
+create type tipo_venda as ENUM('avista','prazo');
 CREATE TABLE venda (
 	cd_venda serial4 NOT NULL,
 	cd_cliente int4 NOT NULL,
@@ -24,6 +25,7 @@ CREATE TABLE venda (
 	vl_total numeric(10, 2) NOT NULL,
 	ds_pagamento varchar(50) NULL,
 	ds_observacao varchar(255) NULL,
+	tipo_venda tipo_venda,
 	CONSTRAINT venda_pkey PRIMARY KEY (cd_venda),
 	CONSTRAINT venda_cd_cliente_fkey FOREIGN KEY (cd_cliente) REFERENCES cliente(cd_cliente)
 );
@@ -64,4 +66,16 @@ CREATE TABLE venda_item (
 	CONSTRAINT venda_item_pkey PRIMARY KEY (cd_item),
 	CONSTRAINT venda_item_cd_produto_fkey FOREIGN KEY (cd_produto) REFERENCES produto(cd_produto),
 	CONSTRAINT venda_item_cd_venda_fkey FOREIGN KEY (cd_venda) REFERENCES venda(cd_venda)
+);
+
+create type status_pagamento as enum('aberto','pago')
+CREATE TABLE vendas_prazo(
+    cd_venda_prazo serial4 NOT NULL,
+    cd_venda INT NOT NULL,
+    nm_parcela INTEGER NOT NULL,
+    vl_parcela DECIMAL(8, 2) NOT NULL,
+    dt_vencimento DATE NOT NULL,
+    status_pagamento status_pagamento NOT NULL,
+    CONSTRAINT venda_prazopkey PRIMARY KEY (cd_venda_prazo),
+	CONSTRAINT venda_prazo_cd_venda_fkey FOREIGN KEY (cd_venda) REFERENCES venda(cd_venda)
 );
