@@ -624,7 +624,7 @@ public class FrmVendas extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Código", "Cliente", "Data", "Total", "Pagamento", "Descrição"
+                "Código", "Cliente", "Data", "Total", "Pagamento", "Descrição", "Tipo"
             }
         ));
         tblCVendas.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -957,7 +957,8 @@ public class FrmVendas extends javax.swing.JFrame {
                     venda.getDt_venda(),
                     venda.getVl_total(),
                     venda.getDs_pagemento(),
-                    venda.getDs_observacao()
+                    venda.getDs_observacao(),
+                    venda.getTipo_venda()
                 });
             }
        

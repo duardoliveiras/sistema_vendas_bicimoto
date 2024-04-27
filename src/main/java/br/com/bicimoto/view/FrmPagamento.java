@@ -327,6 +327,7 @@ public class FrmPagamento extends javax.swing.JFrame {
                 venda.setVl_total(this.total);
                 venda.setDs_pagemento(pg1 + pg2 + pg3);
                 venda.setDs_observacao(txtObs.getText());
+                venda.setTipo_venda("avista");
 
                 vendasDao.insertVenda(venda);
 

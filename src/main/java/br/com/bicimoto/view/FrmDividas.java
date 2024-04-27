@@ -4,19 +4,38 @@
  */
 package br.com.bicimoto.view;
 
+import br.com.bicimoto.dao.VendasPrazoDao;
+import br.com.bicimoto.model.ClienteModel;
+import br.com.bicimoto.model.VendasPrazoModel;
+import java.awt.Color;
+import java.awt.Component;
+import java.util.List;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author G15
  */
 public class FrmDividas extends javax.swing.JFrame {
-
+    Long id_cliente;
+    String nome_cliente;
     /**
      * Creates new form FrmDividas
      */
     public FrmDividas() {
         initComponents();
+        optionAberto.setSelected(true);
     }
-
+    
+    public void setCliente(Long id_cliente, String nome_cliente){
+        this.id_cliente = id_cliente;
+        this.nome_cliente = nome_cliente;
+        
+        listarDividas("aberto");
+        txtCliente.setText(nome_cliente);
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -31,14 +50,14 @@ public class FrmDividas extends javax.swing.JFrame {
         btnVoltar = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tblCDividas = new javax.swing.JTable();
         btnVoltar1 = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
-        jRadioButton1 = new javax.swing.JRadioButton();
-        jRadioButton2 = new javax.swing.JRadioButton();
+        txtCliente = new javax.swing.JTextField();
+        optionAberto = new javax.swing.JRadioButton();
+        optionPago = new javax.swing.JRadioButton();
         jLabel2 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        txtTotal = new javax.swing.JTextField();
         jTextField3 = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
@@ -86,19 +105,16 @@ public class FrmDividas extends javax.swing.JFrame {
 
         jPanel2.setForeground(new java.awt.Color(255, 255, 255));
 
-        jTable1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblCDividas.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        tblCDividas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+
             },
             new String [] {
                 "N. Parcela", "Valor Parcela", "Valor Pago", "Valor Restante", "Data de Vencimento", "Juros"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tblCDividas);
 
         btnVoltar1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnVoltar1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/payment-method.png"))); // NOI18N
@@ -112,29 +128,35 @@ public class FrmDividas extends javax.swing.JFrame {
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel3.setText("Cliente:");
 
-        jTextField2.setText("jTextField1");
-        jTextField2.addActionListener(new java.awt.event.ActionListener() {
+        txtCliente.setEditable(false);
+        txtCliente.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        txtCliente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField2ActionPerformed(evt);
+                txtClienteActionPerformed(evt);
             }
         });
 
-        jRadioButton1.setText("Aberto");
-        jRadioButton1.addActionListener(new java.awt.event.ActionListener() {
+        optionAberto.setText("Aberto");
+        optionAberto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jRadioButton1ActionPerformed(evt);
+                optionAbertoActionPerformed(evt);
             }
         });
 
-        jRadioButton2.setText("Pago");
+        optionPago.setText("Pago");
+        optionPago.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                optionPagoActionPerformed(evt);
+            }
+        });
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel2.setText("Total Geral:");
+        jLabel2.setText("Total Restante:");
 
-        jTextField1.setText("jTextField1");
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+        txtTotal.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        txtTotal.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+                txtTotalActionPerformed(evt);
             }
         });
 
@@ -186,26 +208,25 @@ public class FrmDividas extends javax.swing.JFrame {
                                 .addComponent(jLabel5)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane2)
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGap(101, 101, 101)
+                                .addGap(0, 0, Short.MAX_VALUE)
                                 .addComponent(jLabel2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
-                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(txtTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnVoltar1, javax.swing.GroupLayout.PREFERRED_SIZE, 466, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(jLabel3)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 283, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jRadioButton1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jRadioButton2))
-                            .addComponent(btnVoltar1, javax.swing.GroupLayout.PREFERRED_SIZE, 466, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(txtCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 283, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(32, 32, 32)
+                                .addComponent(optionAberto)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(optionPago)))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -215,16 +236,16 @@ public class FrmDividas extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jRadioButton1)
-                    .addComponent(jRadioButton2))
+                    .addComponent(txtCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(optionAberto)
+                    .addComponent(optionPago))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 273, Short.MAX_VALUE)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2)
                     .addComponent(jLabel4)
                     .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -268,17 +289,18 @@ public class FrmDividas extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnVoltar1ActionPerformed
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    private void txtTotalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTotalActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    }//GEN-LAST:event_txtTotalActionPerformed
 
-    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
+    private void txtClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtClienteActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField2ActionPerformed
+    }//GEN-LAST:event_txtClienteActionPerformed
 
-    private void jRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jRadioButton1ActionPerformed
+    private void optionAbertoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_optionAbertoActionPerformed
+        optionPago.setSelected(false);
+        listarDividas("aberto");
+    }//GEN-LAST:event_optionAbertoActionPerformed
 
     private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
         // TODO add your handling code here:
@@ -288,6 +310,37 @@ public class FrmDividas extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField4ActionPerformed
 
+    private void optionPagoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_optionPagoActionPerformed
+        optionAberto.setSelected(false);
+        listarDividas("pago");
+    }//GEN-LAST:event_optionPagoActionPerformed
+    
+    private final VendasPrazoDao vendasPrazoDao = new VendasPrazoDao();
+    
+    public void listarDividas(String status){
+        DefaultTableModel dadosDivida = (DefaultTableModel) tblCDividas.getModel();
+        
+        dadosDivida.setNumRows(0);
+        
+        List<VendasPrazoModel> lista = vendasPrazoDao.selectVendasPorCliente(this.id_cliente, status);
+       
+        
+        float cTotal = 0;
+        for(VendasPrazoModel venda : lista){
+            
+            cTotal += (venda.getVl_parcela() - venda.getVl_pago());
+            dadosDivida.addRow(new Object[]{
+                venda.getNm_parcela(),
+                venda.getVl_parcela(),
+                venda.getVl_pago(),
+                (venda.getVl_parcela() - venda.getVl_pago()),
+                venda.getDt_vencimento(),
+                5
+            });
+            
+        }
+        txtTotal.setText(String.valueOf(cTotal));
+    }
     /**
      * @param args the command line arguments
      */
@@ -333,15 +386,15 @@ public class FrmDividas extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JRadioButton jRadioButton1;
-    private javax.swing.JRadioButton jRadioButton2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
+    private javax.swing.JRadioButton optionAberto;
+    private javax.swing.JRadioButton optionPago;
+    private javax.swing.JTable tblCDividas;
     private javax.swing.JTable tblCItens;
+    private javax.swing.JTextField txtCliente;
+    private javax.swing.JTextField txtTotal;
     // End of variables declaration//GEN-END:variables
 }

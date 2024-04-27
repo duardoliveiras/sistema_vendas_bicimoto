@@ -365,10 +365,11 @@ public class FrmPrazo extends javax.swing.JFrame {
         venda.setCliente(this.cliente);
         venda.setVl_total(this.total);
         venda.setDs_pagemento(descricao);
-        System.out.println("--> Observacao: " + txtObs.getText());
         venda.setDs_observacao(txtObs.getText());
+        venda.setTipo_venda("prazo");
         
         vendasDao.insertVenda(venda);
+        
         venda.setCd_venda(vendasDao.selectUltimaVenda());
 
         if(this.entrada > 0){

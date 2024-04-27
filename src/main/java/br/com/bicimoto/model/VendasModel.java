@@ -18,7 +18,16 @@ public class VendasModel {
     private String ds_pagemento;
     private String ds_observacao;
     private Date dt_venda;
+    private String tipo_venda;
 
+    public String getTipo_venda() {
+        return tipo_venda;
+    }
+
+    public void setTipo_venda(String tipo_venda) {
+        this.tipo_venda = tipo_venda;
+    }
+    
     public Date getDt_venda() {
         return dt_venda;
     }

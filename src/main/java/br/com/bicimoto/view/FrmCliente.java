@@ -641,24 +641,24 @@ public class FrmCliente extends javax.swing.JFrame {
                 
                 else{ 
                     try{
-                    cliente = new ClienteModel();
-                    cliente.setNome(txtNome.getText());
-                    cliente.setCpf(txtCpf.getText());
-                    cliente.setDt_nascimento(txtDt_nascimento.getText());
-                    cliente.setEmail(txtEmail.getText());
-                    cliente.setTelefone(txtTelefone.getText());
-                    cliente.setCep(txtCep.getText());
-                    cliente.setEndereco(txtEndereco.getText());
-                    cliente.setCidade(txtCidade.getText());
-                    cliente.setBairro(txtBairro.getText());
-                    cliente.setEstado(boxEstado.getSelectedItem().toString());
-                    
-            
-                    clienteDao.insertCliente(cliente);
-                    viewModel.limparDados(jCadastro);
-                }catch(Exception e){
-                    JOptionPane.showMessageDialog(null, e);
-                }
+                        cliente = new ClienteModel();
+                        cliente.setNome(txtNome.getText());
+                        cliente.setCpf(txtCpf.getText());
+                        cliente.setDt_nascimento(txtDt_nascimento.getText());
+                        cliente.setEmail(txtEmail.getText());
+                        cliente.setTelefone(txtTelefone.getText());
+                        cliente.setCep(txtCep.getText());
+                        cliente.setEndereco(txtEndereco.getText());
+                        cliente.setCidade(txtCidade.getText());
+                        cliente.setBairro(txtBairro.getText());
+                        cliente.setEstado(boxEstado.getSelectedItem().toString());
+
+
+                        clienteDao.insertCliente(cliente);
+                        viewModel.limparDados(jCadastro);
+                    }catch(Exception e){
+                        JOptionPane.showMessageDialog(null, e);
+                    }
                 }
             } catch (ParseException e) {
                 JOptionPane.showMessageDialog(null, "Preencha o CPF, Data de nascimento e nome", "Campos vazios", 0);
@@ -702,8 +702,14 @@ public class FrmCliente extends javax.swing.JFrame {
 
     private void btnDividasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDividasActionPerformed
         FrmDividas frmDividas = new FrmDividas();
-        frmDividas.setVisible(true);
-        this.dispose();
+        if(txtId.getText().isEmpty()){
+             JOptionPane.showMessageDialog(null, "Selecione um cliente", "Campos vazios", 0);
+        }else{
+            frmDividas.setCliente(Long.parseLong(txtId.getText()), txtNome.getText());
+            frmDividas.setVisible(true);
+            this.dispose();        
+        }
+        
     }//GEN-LAST:event_btnDividasActionPerformed
 
     private void txtDt_nascimentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDt_nascimentoActionPerformed

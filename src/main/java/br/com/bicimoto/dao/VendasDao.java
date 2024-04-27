@@ -52,7 +52,7 @@ public class VendasDao {
     
     public void insertVenda(VendasModel venda){
         try(Connection connDb = ConnectionDatabase.getConnection()){
-            String sql = "insert into venda(cd_cliente, dt_venda, vl_total, ds_pagamento, ds_observacao) values(?,now(),?,?,?)";
+            String sql = "insert into venda(cd_cliente, dt_venda, vl_total, ds_pagamento, ds_observacao, tipo_venda) values(?,now(),?,?,?,?::tipo_venda)";
             
             PreparedStatement stmt = connDb.prepareStatement(sql);
             
@@ -60,6 +60,7 @@ public class VendasDao {
             stmt.setFloat(2, venda.getVl_total());
             stmt.setString(3, venda.getDs_pagemento());
             stmt.setString(4, venda.getDs_observacao());
+            stmt.setString(5, venda.getTipo_venda());
             
             
             stmt.execute();
@@ -103,7 +104,7 @@ public class VendasDao {
         Date dt_final = new Date(fdt_final.getTime());
         
         List<VendasModel> lista = new ArrayList<>();
-        String sql = "SELECT cd_venda, cd_cliente, dt_venda, vl_total, ds_pagamento, ds_observacao from venda where dt_venda between ? and ?";
+        String sql = "SELECT cd_venda, cd_cliente, dt_venda, vl_total, ds_pagamento, ds_observacao, tipo_venda from venda where dt_venda between ? and ?";
         ResultSet result;
         try(Connection connDb = ConnectionDatabase.getConnection()){
             PreparedStatement stmt = connDb.prepareStatement(sql);
@@ -121,7 +122,7 @@ public class VendasDao {
                 venda.setDs_pagemento(result.getString("ds_pagamento"));
                 venda.setVl_total(result.getFloat("vl_total"));
                 venda.setDt_venda(result.getDate("dt_venda"));
-                
+                venda.setTipo_venda(result.getString("tipo_venda"));
                 
                 lista.add(venda);
             }

@@ -27,12 +27,14 @@ public class VendasTest {
     
     private VendasModel venda;
     private VendasDao vendasDao;
+    private VendasPrazoDao vendasPrazoDao;
     private Date data;
     private SimpleDateFormat formatter;
 
     @Before
     public void setUp(){
         vendasDao = new VendasDao();
+        vendasPrazoDao = new VendasPrazoDao();
         venda = new VendasModel();
         formatter = new SimpleDateFormat("dd/MM/yyyy");
     }
@@ -58,7 +60,7 @@ public class VendasTest {
 //        vendasDao.insertVenda(venda);
 //        Long cd_venda = vendasDao.selectUltimaVenda();
 //        
-//        VendasPrazoDao vendasPrazoDao = new VendasPrazoDao();
+//        
 //        VendasPrazoModel vendaPrazo = new VendasPrazoModel();
 //        
 //        String data = "25/05/2024";
@@ -92,6 +94,18 @@ public class VendasTest {
         }
         
                
+    }
+    
+    @Test
+    public void testSelectVendaPrazo(){
+      
+        Long cd_cliente = (long) 1;
+        List<VendasPrazoModel> lista = vendasPrazoDao.selectVendasPorCliente(cd_cliente, "aberto");
+        
+        for(VendasPrazoModel venda : lista){
+            System.out.println(venda.toString());
+        }
+        
     }
     
 }

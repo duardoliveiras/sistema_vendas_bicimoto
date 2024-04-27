@@ -8,7 +8,10 @@ import br.com.bicimoto.jdbc.ConnectionDatabase;
 import br.com.bicimoto.model.VendasPrazoModel;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JOptionPane;
 
 /**
@@ -36,6 +39,47 @@ public class VendasPrazoDao {
         }catch(SQLException e){
             JOptionPane.showMessageDialog(null, e);
         }
+    }
+    
+    public List<VendasPrazoModel> selectVendasPorCliente(Long cd_cliente, String status){
+        List<VendasPrazoModel> lista = new ArrayList<>();
+        
+        String sql = 
+                "select \n" +
+                "vp.nm_parcela, \n" +
+                "vp.vl_parcela, \n" +
+                "vp.vl_pago, \n" +
+                "vp.dt_vencimento\n" +
+                "from cliente c, venda v, vendas_prazo vp  \n" +
+                "where v.cd_cliente = c.cd_cliente \n" +
+                "and v.cd_cliente = ? \n" +
+                "and vp.status_pagamento = ?::status_pagamento\n" +
+                "and v.cd_venda = vp.cd_venda\n" +
+                "order by vp.dt_vencimento asc";
+        
+        ResultSet result;
+        
+        try(Connection connDb = ConnectionDatabase.getConnection()){
+            PreparedStatement stmt = connDb.prepareStatement(sql);
+            stmt.setLong(1, cd_cliente);
+            stmt.setString(2, status);
+            result = stmt.executeQuery();
+            
+            while(result.next()){
+                VendasPrazoModel vendaPrazo = new VendasPrazoModel();
+                vendaPrazo.setNm_parcela(result.getInt("nm_parcela"));
+                vendaPrazo.setVl_parcela(result.getFloat("vl_parcela"));
+                vendaPrazo.setVl_pago(result.getFloat("vl_pago"));
+                vendaPrazo.setDt_vencimento(result.getDate("dt_vencimento"));
+
+                lista.add(vendaPrazo);
+            }
+            
+        }catch(SQLException e){
+            JOptionPane.showMessageDialog(null, e);
+        }
+
+        return lista;
     }
     
 }
