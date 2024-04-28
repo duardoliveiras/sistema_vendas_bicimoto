@@ -4,9 +4,22 @@
  */
 package br.com.bicimoto.view;
 
+import br.com.bicimoto.dao.ItensDao;
+import br.com.bicimoto.dao.ProdutoDao;
+import br.com.bicimoto.dao.VendasDao;
+import br.com.bicimoto.dao.VendasPrazoDao;
+import br.com.bicimoto.model.ClienteModel;
+import br.com.bicimoto.model.ItensModel;
+import br.com.bicimoto.model.ProdutoModel;
+import br.com.bicimoto.model.VendasModel;
+import br.com.bicimoto.model.VendasPrazoModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.sql.Date;
+import java.util.Calendar;
 import javax.swing.JRadioButton;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -14,6 +27,10 @@ import javax.swing.JRadioButton;
  */
 public class FrmPrazo extends javax.swing.JFrame {
     float entrada = 0;
+    float total;
+    
+    DefaultTableModel itens;
+    ClienteModel cliente = new ClienteModel();
     /**
      * Creates new form FrmPrazo
      */
@@ -69,8 +86,11 @@ public class FrmPrazo extends javax.swing.JFrame {
         qtdParcela = new javax.swing.JSpinner();
         txtTotal = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        txtObs = new javax.swing.JTextArea();
+        jLabel10 = new javax.swing.JLabel();
         jPanel13 = new javax.swing.JPanel();
-        btnFinalizar10 = new javax.swing.JButton();
+        btnFinalizar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -86,7 +106,7 @@ public class FrmPrazo extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(21, Short.MAX_VALUE)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 421, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -115,8 +135,10 @@ public class FrmPrazo extends javax.swing.JFrame {
             }
         });
 
+        opcao30Dias.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         opcao30Dias.setText("30 Dias");
 
+        opcao45Dias.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         opcao45Dias.setText("45 Dias");
         opcao45Dias.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -124,8 +146,10 @@ public class FrmPrazo extends javax.swing.JFrame {
             }
         });
 
+        opcao15Dias.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         opcao15Dias.setText("15 Dias");
 
+        parcelado.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         parcelado.setText("Parcelado:");
         parcelado.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -133,9 +157,10 @@ public class FrmPrazo extends javax.swing.JFrame {
             }
         });
 
-        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel3.setText("Selecione uma opção:");
 
+        qtdParcela.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         qtdParcela.setModel(new javax.swing.SpinnerNumberModel(1, 1, 24, 1));
         qtdParcela.setEnabled(false);
 
@@ -189,6 +214,13 @@ public class FrmPrazo extends javax.swing.JFrame {
         jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel9.setText("TOTAL:");
 
+        txtObs.setColumns(20);
+        txtObs.setRows(5);
+        jScrollPane1.setViewportView(txtObs);
+
+        jLabel10.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel10.setText("OBS.:");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -198,15 +230,18 @@ public class FrmPrazo extends javax.swing.JFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(7, 7, 7)
                         .addComponent(jLabel7))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jLabel9)))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.TRAILING))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(txtEntrada)
-                    .addComponent(txtTotal))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jScrollPane1)
+                    .addComponent(jPanel14, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(txtEntrada, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtTotal, javax.swing.GroupLayout.Alignment.LEADING))
+                .addContainerGap(58, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -219,19 +254,23 @@ public class FrmPrazo extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel9))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel10))
+                .addGap(18, 18, 18)
                 .addComponent(jPanel14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(43, 43, 43))
+                .addContainerGap(15, Short.MAX_VALUE))
         );
 
         jPanel13.setBackground(new java.awt.Color(255, 255, 255));
 
-        btnFinalizar10.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btnFinalizar10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/payment-method.png"))); // NOI18N
-        btnFinalizar10.setText("FINALIZAR");
-        btnFinalizar10.addActionListener(new java.awt.event.ActionListener() {
+        btnFinalizar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnFinalizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/payment-method.png"))); // NOI18N
+        btnFinalizar.setText("FINALIZAR");
+        btnFinalizar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnFinalizar10ActionPerformed(evt);
+                btnFinalizarActionPerformed(evt);
             }
         });
 
@@ -241,14 +280,14 @@ public class FrmPrazo extends javax.swing.JFrame {
             jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel13Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnFinalizar10, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnFinalizar, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(128, 128, 128))
         );
         jPanel13Layout.setVerticalGroup(
             jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel13Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(btnFinalizar10, javax.swing.GroupLayout.DEFAULT_SIZE, 51, Short.MAX_VALUE)
+                .addComponent(btnFinalizar, javax.swing.GroupLayout.DEFAULT_SIZE, 51, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -265,10 +304,9 @@ public class FrmPrazo extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
@@ -278,15 +316,145 @@ public class FrmPrazo extends javax.swing.JFrame {
     private void txtEntradaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEntradaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtEntradaActionPerformed
-
+    
+    private void calculaTotal(){
+        this.entrada = txtEntrada.getText().isEmpty() ? 0 : Float.valueOf(txtEntrada.getText());
+        txtTotal.setText(String.valueOf(this.total - this.entrada));
+    }
+    
     private void txtEntradaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtEntradaKeyPressed
-
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+            calculaTotal();
+        }
     }//GEN-LAST:event_txtEntradaKeyPressed
 
-    private void btnFinalizar10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFinalizar10ActionPerformed
-      
+    private final VendasDao vendasDao = new VendasDao();
+    private final ItensDao itensDao = new ItensDao();
+    private final ProdutoDao produtoDao = new ProdutoDao();
+    private final VendasPrazoDao vendasPrazoDao = new VendasPrazoDao();
+    private VendasModel venda;
+    private ItensModel item;
+    private ProdutoModel produto;
+    private VendasPrazoModel vendaPrazo;
+    private Calendar cal;
+    
+    private int getDiasVencimento(){
+        if(opcao15Dias.isSelected()){
+            return 15;
+        }else if(opcao30Dias.isSelected()){
+            return 30;
+        }else if(opcao45Dias.isSelected()){
+            return 45;
+        }else{
+            return 0;
+        }
+    }
+    
+    private void btnFinalizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFinalizarActionPerformed
+        
+        int dias = this.getDiasVencimento();
+        String descricao;
+        
+        if(dias == 0){
+            descricao = "Parcelado em: " + qtdParcela.getValue() + " vezes";
+        }else{
+            descricao = "Prazo de: " + dias + " dias";
+        }
+        
+        venda = new VendasModel();
+        venda.setCliente(this.cliente);
+        venda.setVl_total(this.total);
+        venda.setDs_pagemento(descricao);
+        System.out.println("--> Observacao: " + txtObs.getText());
+        venda.setDs_observacao(txtObs.getText());
+        
+        vendasDao.insertVenda(venda);
+        venda.setCd_venda(vendasDao.selectUltimaVenda());
 
-    }//GEN-LAST:event_btnFinalizar10ActionPerformed
+        if(this.entrada > 0){
+            vendaPrazo = new VendasPrazoModel();
+            vendaPrazo.setCd_venda(venda.getCd_venda());
+            vendaPrazo.setVl_parcela(entrada);
+            vendaPrazo.setVl_pago(entrada);
+            vendaPrazo.setDt_vencimento(vendasDao.getSysdate());
+            vendaPrazo.setNm_parcela(0);
+            vendaPrazo.setStatus_pagamento("pago");
+
+            vendasPrazoDao.insertVendaPrazo(vendaPrazo);
+            
+        }
+        
+        float restante = this.total - this.entrada;
+        if(dias > 0){
+            // Adicionando o restante.            
+            // Colocando prazo no vencimento
+            Date sysdate = vendasDao.getSysdate();
+            java.util.Date dataUtil = new java.util.Date(sysdate.getTime());
+            cal = Calendar.getInstance();
+            cal.setTime(dataUtil);
+            cal.add(Calendar.DAY_OF_MONTH, dias);
+            Date dt_vencimento = new Date(cal.getTimeInMillis());
+            
+            
+            
+            vendaPrazo = new VendasPrazoModel();
+            vendaPrazo.setCd_venda(venda.getCd_venda());
+            vendaPrazo.setVl_parcela(restante);
+            vendaPrazo.setVl_pago(0);
+            vendaPrazo.setDt_vencimento(dt_vencimento);
+            vendaPrazo.setNm_parcela(1);
+            vendaPrazo.setStatus_pagamento("aberto");
+            
+            vendasPrazoDao.insertVendaPrazo(vendaPrazo);
+ 
+        }else if(dias == 0){
+            
+            int parcelas = Integer.parseInt(this.qtdParcela.getValue().toString());
+            
+            Date sysdate = vendasDao.getSysdate();
+            java.util.Date dataUtil = new java.util.Date(sysdate.getTime());
+            cal = Calendar.getInstance();
+            
+            float vl_parcela = restante / parcelas;
+            
+            for(int j = 1; j <= parcelas; j++){
+                cal.setTime(dataUtil);
+                cal.add(Calendar.DAY_OF_MONTH, 30 * j);
+                Date dt_vencimento = new Date(cal.getTimeInMillis());
+                
+                vendaPrazo = new VendasPrazoModel();
+                vendaPrazo.setCd_venda(venda.getCd_venda());
+                vendaPrazo.setVl_parcela(vl_parcela);
+                vendaPrazo.setVl_pago(0);
+                vendaPrazo.setDt_vencimento(dt_vencimento);
+                vendaPrazo.setNm_parcela(j);
+                vendaPrazo.setStatus_pagamento("aberto");
+
+                vendasPrazoDao.insertVendaPrazo(vendaPrazo);
+            }
+        }
+
+        for(int i = 0; i < itens.getRowCount(); i++){
+            item = new ItensModel();
+            produto = new ProdutoModel();
+
+            produto.setCd_produto(Long.parseLong(itens.getValueAt(i, 0).toString()));
+
+            item.setQuantidade( Integer.parseInt(itens.getValueAt(i, 2).toString()));
+            item.setSubtotal(Float.parseFloat(itens.getValueAt(i, 4).toString()));
+            item.setVenda(venda);
+            item.setProduto(produto);
+
+            produtoDao.atualizaEstoque(produto, item.getQuantidade());
+            itensDao.insertItens(item);
+        }
+        
+        FrmMenu frmMenu = new FrmMenu();
+        frmMenu.setVisible(true);
+        this.dispose();
+        
+
+    }//GEN-LAST:event_btnFinalizarActionPerformed
 
     private void opcao45DiasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_opcao45DiasActionPerformed
         // TODO add your handling code here:
@@ -333,34 +501,16 @@ public class FrmPrazo extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnFinalizar;
-    private javax.swing.JButton btnFinalizar1;
-    private javax.swing.JButton btnFinalizar10;
-    private javax.swing.JButton btnFinalizar2;
-    private javax.swing.JButton btnFinalizar3;
-    private javax.swing.JButton btnFinalizar4;
-    private javax.swing.JButton btnFinalizar5;
-    private javax.swing.JButton btnFinalizar6;
-    private javax.swing.JButton btnFinalizar7;
-    private javax.swing.JButton btnFinalizar8;
-    private javax.swing.JButton btnFinalizar9;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel10;
-    private javax.swing.JPanel jPanel11;
-    private javax.swing.JPanel jPanel12;
     private javax.swing.JPanel jPanel13;
     private javax.swing.JPanel jPanel14;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
-    private javax.swing.JPanel jPanel6;
-    private javax.swing.JPanel jPanel7;
-    private javax.swing.JPanel jPanel8;
-    private javax.swing.JPanel jPanel9;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JRadioButton opcao15Dias;
     private javax.swing.JRadioButton opcao30Dias;
     private javax.swing.JRadioButton opcao45Dias;
@@ -368,6 +518,7 @@ public class FrmPrazo extends javax.swing.JFrame {
     private javax.swing.JRadioButton parcelado;
     private javax.swing.JSpinner qtdParcela;
     private javax.swing.JTextField txtEntrada;
+    private javax.swing.JTextArea txtObs;
     public javax.swing.JTextField txtTotal;
     // End of variables declaration//GEN-END:variables
 }

@@ -52,12 +52,15 @@ public class VendasDao {
     
     public void insertVenda(VendasModel venda){
         try(Connection connDb = ConnectionDatabase.getConnection()){
-            String sql = "insert into venda(cd_cliente, dt_venda, vl_total, ds_pagamento) values(?,now(),?,?)";
+            String sql = "insert into venda(cd_cliente, dt_venda, vl_total, ds_pagamento, ds_observacao) values(?,now(),?,?,?)";
+            
             PreparedStatement stmt = connDb.prepareStatement(sql);
             
             stmt.setLong(1, venda.getCliente().getId());
             stmt.setFloat(2, venda.getVl_total());
             stmt.setString(3, venda.getDs_pagemento());
+            stmt.setString(4, venda.getDs_observacao());
+            
             
             stmt.execute();
             stmt.close();

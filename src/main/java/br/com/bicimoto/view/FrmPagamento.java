@@ -317,35 +317,35 @@ public class FrmPagamento extends javax.swing.JFrame {
     private void btnFinalizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFinalizarActionPerformed
             if(calculaTroco()){
                 String pg1 = (dinheiro > 0)? "Dinheiro: " + txtDinheiro.getText()+"R$" : "";
-            String pg2 = (cartao > 0)? " Cartão: " + txtCartao.getText()+"R$" : "";
-            String pg3 = (pix > 0)? " Pix: " + txtPix.getText()+"R$" : "";
+                String pg2 = (cartao > 0)? " Cartão: " + txtCartao.getText()+"R$" : "";
+                String pg3 = (pix > 0)? " Pix: " + txtPix.getText()+"R$" : "";
             
             
         
-            venda = new VendasModel();
-            venda.setCliente(this.cliente);
-            venda.setVl_total(this.total);
-            venda.setDs_pagemento(pg1 + pg2 + pg3);
-            venda.setDs_observacao(txtObs.getText());
-            
-            vendasDao.insertVenda(venda);
-            
-            for(int i = 0; i < itens.getRowCount(); i++){
-                item = new ItensModel();
-                produto = new ProdutoModel();
                 venda = new VendasModel();
-                
-                    produto.setCd_produto(Long.parseLong(itens.getValueAt(i, 0).toString()));
-                    venda.setCd_venda(vendasDao.selectUltimaVenda());
-                    
-                    item.setQuantidade( Integer.parseInt(itens.getValueAt(i, 2).toString()));
-                    item.setSubtotal(Float.parseFloat(itens.getValueAt(i, 4).toString()));
-                    item.setVenda(venda);
-                    item.setProduto(produto);
-                    
-                    produtoDao.atualizaEstoque(produto, item.getQuantidade());
-                    itensDao.insertItens(item);
-            }
+                venda.setCliente(this.cliente);
+                venda.setVl_total(this.total);
+                venda.setDs_pagemento(pg1 + pg2 + pg3);
+                venda.setDs_observacao(txtObs.getText());
+
+                vendasDao.insertVenda(venda);
+
+                for(int i = 0; i < itens.getRowCount(); i++){
+                    item = new ItensModel();
+                    produto = new ProdutoModel();
+                    venda = new VendasModel();
+
+                        produto.setCd_produto(Long.parseLong(itens.getValueAt(i, 0).toString()));
+                        venda.setCd_venda(vendasDao.selectUltimaVenda());
+
+                        item.setQuantidade( Integer.parseInt(itens.getValueAt(i, 2).toString()));
+                        item.setSubtotal(Float.parseFloat(itens.getValueAt(i, 4).toString()));
+                        item.setVenda(venda);
+                        item.setProduto(produto);
+
+                        produtoDao.atualizaEstoque(produto, item.getQuantidade());
+                        itensDao.insertItens(item);
+                }
             
             FrmMenu frmMenu = new FrmMenu();
             frmMenu.setVisible(true);

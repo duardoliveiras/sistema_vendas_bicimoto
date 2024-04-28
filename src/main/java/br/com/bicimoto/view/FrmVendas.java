@@ -915,10 +915,19 @@ public class FrmVendas extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Adicione o cliente e os produtos", "Campos vazios", 0);
             }
         }else if(prazo.isSelected()){
-            FrmPrazo frmPrazo = new FrmPrazo();
-            frmPrazo.txtTotal.setText(txtTotal.getText());
-            frmPrazo.setVisible(true);
-            this.dispose();
+            if(tblItens.getRowCount() > 0 && !txtNomeCliente.getText().trim().isEmpty()){
+                FrmPrazo frmPrazo = new FrmPrazo();
+                
+                frmPrazo.txtTotal.setText(txtTotal.getText());
+                frmPrazo.total = Float.valueOf(txtTotal.getText());
+                
+                frmPrazo.itens = this.itens;
+                frmPrazo.cliente = this.cliente;
+                frmPrazo.setVisible(true);
+                this.dispose();
+            }else{
+                JOptionPane.showMessageDialog(null, "Adicione o cliente e os produtos", "Campos vazios", 0);
+            }
             
         }
 

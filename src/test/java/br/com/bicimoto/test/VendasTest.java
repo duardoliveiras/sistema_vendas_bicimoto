@@ -5,9 +5,11 @@
 package br.com.bicimoto.test;
 
 
+import br.com.bicimoto.dao.VendasPrazoDao;
 import br.com.bicimoto.dao.VendasDao;
 import br.com.bicimoto.model.ClienteModel;
 import br.com.bicimoto.model.VendasModel;
+import br.com.bicimoto.model.VendasPrazoModel;
 import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -28,7 +30,7 @@ public class VendasTest {
     private Date data;
     private SimpleDateFormat formatter;
 
-     @Before
+    @Before
     public void setUp(){
         vendasDao = new VendasDao();
         venda = new VendasModel();
@@ -41,23 +43,38 @@ public class VendasTest {
         System.out.println(data);
     }
     
-    /*
-    @Test
-    public void testInsert(){
-       
-        ClienteModel cliente = new ClienteModel();
-        
-        cliente.setId((long) 99);
-        venda.setCliente(cliente);
-        venda.setCd_venda((long) 1);
-        venda.setDs_pagemento("Pix");
-        venda.setVl_total((float) 255.63);
-        
-        vendasDao.insertVenda(venda);
-        Long cd_venda = vendasDao.selectUltimaVenda();
-        System.out.println(cd_venda);
-    }
-    */
+    
+//    @Test
+//    public void testInsert() throws ParseException{
+//       
+//        ClienteModel cliente = new ClienteModel();
+//        
+//        cliente.setId((long) 1);
+//        venda.setCliente(cliente);
+//        venda.setCd_venda((long) 1);
+//        venda.setDs_pagemento("Pix");
+//        venda.setVl_total((float) 255.63);
+//        
+//        vendasDao.insertVenda(venda);
+//        Long cd_venda = vendasDao.selectUltimaVenda();
+//        
+//        VendasPrazoDao vendasPrazoDao = new VendasPrazoDao();
+//        VendasPrazoModel vendaPrazo = new VendasPrazoModel();
+//        
+//        String data = "25/05/2024";
+//        java.util.Date data_formatada = formatter.parse(data);
+//        
+//        
+//        vendaPrazo.setCd_venda(cd_venda);
+//        vendaPrazo.setDt_vencimento(new Date(data_formatada.getTime()));
+//        vendaPrazo.setNm_parcela(1);
+//        vendaPrazo.setStatus_pagamento("aberto");
+//        vendaPrazo.setVl_pago(0);
+//        vendaPrazo.setVl_parcela((float)10.56);
+//        
+//        vendasPrazoDao.insertVendaPrazo(vendaPrazo);
+//    }
+    
     
     @Test
     public void testSelectAll(){
