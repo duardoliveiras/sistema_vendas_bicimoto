@@ -79,3 +79,17 @@ CREATE TABLE vendas_prazo(
     CONSTRAINT venda_prazopkey PRIMARY KEY (cd_venda_prazo),
 	CONSTRAINT venda_prazo_cd_venda_fkey FOREIGN KEY (cd_venda) REFERENCES venda(cd_venda)
 );
+
+create or replace function atualiza_status_pago()
+returns trigger as $$
+begin 
+	if new.vl_pago >= new.vl_parcela then 
+		new.status := 'pago';
+	end if;
+	return new;
+end;
+$$ language plpgsql;
+
+create trigger trig_atualiza_status_pago
+before update of vl_pago on public.vendas_prazo 
+for each row execute function atualiza_status_pago();

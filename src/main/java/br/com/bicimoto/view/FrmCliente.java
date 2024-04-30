@@ -832,7 +832,8 @@ public class FrmCliente extends javax.swing.JFrame {
     }//GEN-LAST:event_btnVoltarActionPerformed
 
     private void btnDelete1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDelete1ActionPerformed
-        // TODO add your handling code here:
+        clienteDao.deleteCliente(Long.parseLong(txtId.getText()));
+        viewModel.limparDados(jCadastro);
     }//GEN-LAST:event_btnDelete1ActionPerformed
 
     /**

@@ -41,11 +41,59 @@ public class VendasPrazoDao {
         }
     }
     
+    public void updateVendaPrazo(Long cd_venda_prazo, float vl_pago){
+        String sql = "UPDATE public.vendas_prazo\n" +
+                    "SET vl_pago=vl_pago + ?\n" +
+                    "WHERE cd_venda_prazo=?";
+        try(Connection connDb = ConnectionDatabase.getConnection()){
+            PreparedStatement stmt = connDb.prepareStatement(sql);
+            
+            stmt.setFloat(1, vl_pago);
+            stmt.setLong(2, cd_venda_prazo);
+            
+            stmt.execute();
+            stmt.close();
+            connDb.close();
+            
+            JOptionPane.showMessageDialog(null, "Pagamento efetuado com sucesso!");
+
+            
+        }catch(SQLException e){
+            JOptionPane.showMessageDialog(null, e);
+        }
+        
+    }
+    
+    public void resetarVendaPrazo(Long cd_venda_prazo){
+        String sql = "UPDATE public.vendas_prazo\n" +
+                    "SET vl_pago=0\n" +
+                    "WHERE cd_venda_prazo=?";
+        try(Connection connDb = ConnectionDatabase.getConnection()){
+            PreparedStatement stmt = connDb.prepareStatement(sql);
+            
+            stmt.setLong(1, cd_venda_prazo);
+            
+            stmt.execute();
+            stmt.close();
+            connDb.close();
+            
+            JOptionPane.showMessageDialog(null, "Pagamento desfeito!");
+
+            
+        }catch(SQLException e){
+            JOptionPane.showMessageDialog(null, e);
+        }
+        
+    }
+    
     public List<VendasPrazoModel> selectVendasPorCliente(Long cd_cliente, String status){
         List<VendasPrazoModel> lista = new ArrayList<>();
         
         String sql = 
                 "select \n" +
+                "vp.status_pagamento, \n" +
+                "vp.cd_venda_prazo, \n" +
+                "vp.cd_venda, \n" +
                 "vp.nm_parcela, \n" +
                 "vp.vl_parcela, \n" +
                 "vp.vl_pago, \n" +
@@ -67,6 +115,9 @@ public class VendasPrazoDao {
             
             while(result.next()){
                 VendasPrazoModel vendaPrazo = new VendasPrazoModel();
+                vendaPrazo.setStatus_pagamento(result.getString("status_pagamento"));
+                vendaPrazo.setCd_venda_prazo(result.getLong("cd_venda_prazo"));
+                vendaPrazo.setCd_venda(result.getLong("cd_venda"));
                 vendaPrazo.setNm_parcela(result.getInt("nm_parcela"));
                 vendaPrazo.setVl_parcela(result.getFloat("vl_parcela"));
                 vendaPrazo.setVl_pago(result.getFloat("vl_pago"));

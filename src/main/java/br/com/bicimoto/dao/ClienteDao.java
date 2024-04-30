@@ -58,9 +58,9 @@ public class ClienteDao {
             int rows = stmt.executeUpdate(); // o execute update retorna um inteiro que relaciona as linhas alteradas
             stmt.close();
             if(rows > 0){
-            JOptionPane.showMessageDialog(null, "Deletado com sucesso!", "Deletado", 1);
+                JOptionPane.showMessageDialog(null, "Deletado com sucesso!", "Deletado", 1);
             }else{
-            JOptionPane.showMessageDialog(null, "Código de cliente não encontrado!", "Aviso", 2);    
+                JOptionPane.showMessageDialog(null, "Código de cliente não encontrado!", "Aviso", 2);    
             }
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e);

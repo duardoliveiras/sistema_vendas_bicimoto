@@ -24,7 +24,7 @@ public class FrmPagamento extends javax.swing.JFrame {
         float cartao = 0;
         float pix = 0;
         
-        float total;
+        public static float total;
         float troco;
         
         DefaultTableModel itens;
@@ -39,6 +39,7 @@ public class FrmPagamento extends javax.swing.JFrame {
         txtCartao.setText(String.valueOf(cartao));
         txtDinheiro.setText(String.valueOf(dinheiro));
         txtPix.setText(String.valueOf(pix));
+        txtTotal.setText(String.valueOf(total));
         
         
      
@@ -59,18 +60,18 @@ public class FrmPagamento extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
-        txtPix = new javax.swing.JTextField();
-        txtCartao = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        txtDinheiro = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
-        txtTroco = new javax.swing.JTextField();
-        jLabel9 = new javax.swing.JLabel();
         txtTotal = new javax.swing.JTextField();
+        jLabel9 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         txtObs = new javax.swing.JTextArea();
         jLabel10 = new javax.swing.JLabel();
+        txtDinheiro = new javax.swing.JFormattedTextField();
+        txtCartao = new javax.swing.JFormattedTextField();
+        txtPix = new javax.swing.JFormattedTextField();
+        txtTroco = new javax.swing.JTextField();
         jPanel3 = new javax.swing.JPanel();
         btnFinalizar = new javax.swing.JButton();
 
@@ -93,7 +94,7 @@ public class FrmPagamento extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -107,36 +108,34 @@ public class FrmPagamento extends javax.swing.JFrame {
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel5.setText("PIX:");
 
-        txtPix.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        txtPix.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtPixActionPerformed(evt);
-            }
-        });
-        txtPix.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                txtPixKeyPressed(evt);
-            }
-        });
-
-        txtCartao.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        txtCartao.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtCartaoActionPerformed(evt);
-            }
-        });
-        txtCartao.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                txtCartaoKeyPressed(evt);
-            }
-        });
-
         jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel6.setText("CARTÃO:");
 
         jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel7.setText("DINHEIRO:");
 
+        jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel8.setText("TROCO:");
+
+        txtTotal.setEditable(false);
+        txtTotal.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        txtTotal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtTotalActionPerformed(evt);
+            }
+        });
+
+        jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel9.setText("TOTAL:");
+
+        txtObs.setColumns(20);
+        txtObs.setRows(5);
+        jScrollPane1.setViewportView(txtObs);
+
+        jLabel10.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel10.setText("OBS.:");
+
+        txtDinheiro.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#,##0.00"))));
         txtDinheiro.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         txtDinheiro.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -149,8 +148,31 @@ public class FrmPagamento extends javax.swing.JFrame {
             }
         });
 
-        jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel8.setText("TROCO:");
+        txtCartao.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#,##0.00"))));
+        txtCartao.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        txtCartao.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtCartaoActionPerformed(evt);
+            }
+        });
+        txtCartao.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtCartaoKeyPressed(evt);
+            }
+        });
+
+        txtPix.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#,##0.00"))));
+        txtPix.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        txtPix.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtPixActionPerformed(evt);
+            }
+        });
+        txtPix.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtPixKeyPressed(evt);
+            }
+        });
 
         txtTroco.setEditable(false);
         txtTroco.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -160,24 +182,6 @@ public class FrmPagamento extends javax.swing.JFrame {
             }
         });
 
-        jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel9.setText("TOTAL:");
-
-        txtTotal.setEditable(false);
-        txtTotal.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        txtTotal.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtTotalActionPerformed(evt);
-            }
-        });
-
-        txtObs.setColumns(20);
-        txtObs.setRows(5);
-        jScrollPane1.setViewportView(txtObs);
-
-        jLabel10.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel10.setText("OBS.:");
-
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -185,52 +189,54 @@ public class FrmPagamento extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel9)
-                            .addComponent(jLabel6)
-                            .addComponent(jLabel7)
-                            .addComponent(jLabel5))
+                        .addGroup(jPanel2Layout.createSequentialGroup()
+                            .addGap(15, 15, 15)
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(jLabel9)
+                                .addComponent(jLabel6)
+                                .addComponent(jLabel5)))
                         .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.TRAILING))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(49, 49, 49)
-                        .addComponent(jLabel10)))
+                        .addComponent(jLabel10))
+                    .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(txtDinheiro, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtCartao, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtPix, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtTotal, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 269, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 270, Short.MAX_VALUE)
+                    .addComponent(txtDinheiro)
+                    .addComponent(txtCartao)
+                    .addComponent(txtPix)
+                    .addComponent(txtTotal)
                     .addComponent(txtTroco))
                 .addGap(17, 17, 17))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtDinheiro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel7))
+                .addGap(28, 28, 28)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel7)
+                    .addComponent(txtDinheiro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtCartao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel6))
+                    .addComponent(jLabel6)
+                    .addComponent(txtCartao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtPix, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5))
-                .addGap(18, 18, 18)
+                    .addComponent(jLabel5)
+                    .addComponent(txtPix, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(64, 64, 64)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel9))
+                    .addComponent(jLabel9)
+                    .addComponent(txtTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel10))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 79, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 94, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtTroco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel8))
+                    .addComponent(jLabel8)
+                    .addComponent(txtTroco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(20, 20, 20))
         );
 
@@ -284,22 +290,6 @@ public class FrmPagamento extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void txtPixActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPixActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtPixActionPerformed
-
-    private void txtCartaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCartaoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtCartaoActionPerformed
-
-    private void txtDinheiroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDinheiroActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtDinheiroActionPerformed
-
-    private void txtTrocoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTrocoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtTrocoActionPerformed
 
     private void txtTotalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTotalActionPerformed
         // TODO add your handling code here:
@@ -370,40 +360,55 @@ public class FrmPagamento extends javax.swing.JFrame {
             return false;
         }
         
+        txtTroco.setText(String.valueOf(troco));
+        
         return true;
         
     }
         
         
     
+    private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
+        txtDinheiro.selectAll();
+    }//GEN-LAST:event_formWindowActivated
+
+    private void txtTrocoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTrocoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtTrocoActionPerformed
+
+    private void txtPixActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPixActionPerformed
+
+    }//GEN-LAST:event_txtPixActionPerformed
+
+    private void txtCartaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCartaoActionPerformed
+
+    }//GEN-LAST:event_txtCartaoActionPerformed
+
+    private void txtDinheiroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDinheiroActionPerformed
+
+    }//GEN-LAST:event_txtDinheiroActionPerformed
+
     private void txtDinheiroKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDinheiroKeyPressed
-         if(evt.getKeyCode() == KeyEvent.VK_ENTER){
-            txtCartao.selectAll();
-            txtCartao.requestFocus();
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+           txtCartao.selectAll();
+           txtCartao.requestFocus();
         }
     }//GEN-LAST:event_txtDinheiroKeyPressed
 
-    private void txtPixKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPixKeyPressed
-        
-        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
-            calculaTroco();
-            txtTroco.setText(String.valueOf(troco));
-            btnFinalizar.requestFocus();
-        }
-
-    }//GEN-LAST:event_txtPixKeyPressed
-
     private void txtCartaoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCartaoKeyPressed
-
         if(evt.getKeyCode() == KeyEvent.VK_ENTER){
             txtPix.requestFocus();
             txtPix.selectAll();
         }
     }//GEN-LAST:event_txtCartaoKeyPressed
 
-    private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
-        txtDinheiro.selectAll();
-    }//GEN-LAST:event_formWindowActivated
+    private void txtPixKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPixKeyPressed
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+            calculaTroco();
+            txtTroco.setText(String.valueOf(troco));
+            btnFinalizar.requestFocus();
+        }
+    }//GEN-LAST:event_txtPixKeyPressed
 
     /**
      * @param args the command line arguments
@@ -454,10 +459,10 @@ public class FrmPagamento extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField txtCartao;
-    private javax.swing.JTextField txtDinheiro;
+    private javax.swing.JFormattedTextField txtCartao;
+    private javax.swing.JFormattedTextField txtDinheiro;
     private javax.swing.JTextArea txtObs;
-    private javax.swing.JTextField txtPix;
+    private javax.swing.JFormattedTextField txtPix;
     public javax.swing.JTextField txtTotal;
     private javax.swing.JTextField txtTroco;
     // End of variables declaration//GEN-END:variables
